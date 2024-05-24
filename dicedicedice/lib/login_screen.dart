@@ -10,6 +10,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
+  String username = '';
   String email = '';
   String password = '';
   String errorMessage = '';
@@ -25,9 +26,9 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 50),
+              // const SizedBox(height: 50),
               Container(
-                height: 500,
+                height: MediaQuery.of(context).size.height,
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
                     color: Colors.white,
@@ -35,8 +36,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   children: <Widget>[
                     const SizedBox(height: 20),
-                    Image.asset('logo.png'), const SizedBox(height: 10),
-                    Image.asset('dice.png'),
+                    // Image.asset('logo.png'),
+                    const SizedBox(height: 10),
+                    Image.asset('dice.png'), const SizedBox(height: 10),
+                    Image.asset('subtext.png'),
                     // const Text(
                     //   "DiceDiceDice",
                     //   style: TextStyle(
@@ -50,14 +53,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyle(fontSize: 20),
                     ),
                     const SizedBox(height: 20),
+
                     TextFormField(
                       keyboardType: TextInputType.emailAddress,
                       onChanged: (value) {
                         email = value;
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           hintText: 'Enter your email',
-                          icon: Icon(Icons.email_outlined)),
+                          prefixIcon: Icon(Icons.email_outlined)),
                       validator: (value) {
                         if (value?.trim().isEmpty ?? false) {
                           return "Email required";
@@ -69,15 +73,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       onChanged: (value) {
                         password = value;
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                           hintText: 'Enter your password',
-                          icon: Icon(Icons.lock)),
+                          prefixIcon: Icon(Icons.lock)),
                       validator: (value) {
                         if (value?.trim().isEmpty ?? false) {
                           return "Password required";
                         }
                       },
                     ),
+
                     SizedBox(height: 15),
                     Text(
                       errorMessage,
@@ -89,16 +94,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     SizedBox(height: 30),
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: const Color(0xFF3498DB),
+                        minimumSize:
+                            Size(MediaQuery.of(context).size.width, 55),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(40)),
+                        ),
+                      ),
                       onPressed: () async {
-                        print("RESULT: ");
                         try {
                           if (_formKey.currentState!.validate()) {
                             dynamic result =
                                 await _auth.signInWithEmailAndPassword(
                                     email: email, password: password);
                             // Navigate to your app's home screen after successful signup
-                            print("RESULT: ");
-                            print(result);
                             if (result == null) {
                               setState(() {
                                 errorMessage =
@@ -119,16 +130,27 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       child: Text('Login'),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SignupScreen()),
-                        );
-                      },
-                      child: Text('Don\'t have an account? Sign up'),
+                    const SizedBox(
+                      height: 30,
                     ),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          const Text('Don\'t have an account? '),
+                          GestureDetector(
+                            child: const Text(
+                              'Register now',
+                              style: TextStyle(color: Color(0xFF3498DB)),
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SignupScreen()),
+                              );
+                            },
+                          ),
+                        ]),
                   ],
                 ),
               ),
