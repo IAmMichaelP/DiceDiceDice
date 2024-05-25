@@ -27,7 +27,7 @@ class _SignupScreenState extends State<SignupScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  height: MediaQuery.of(context).size.height,
+                  height: MediaQuery.of(context).size.height * 1.3,
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
                       color: Colors.white,
