@@ -8,8 +8,9 @@ class HomeScreen extends StatelessWidget {
     final authService = Provider.of<AuthService>(context);
 
     return Scaffold(
+      backgroundColor: const Color(0xFF2C3E50),
       appBar: AppBar(
-        title: Text('Home'),
+        title: Text("User"),
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
@@ -19,8 +20,18 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(
-        child: Text('Welcome to the Home Screen!'),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              const Text('Welcome to the Home Screen!'),
+              CircleAvatar(
+                backgroundImage: const AssetImage('prof.png'),
+                minRadius: MediaQuery.of(context).size.width * 0.5,
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

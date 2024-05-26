@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'auth_service.dart';
 import 'login_screen.dart';
 import 'signup_screen.dart';
+import 'dart:ui' show lerpDouble;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
