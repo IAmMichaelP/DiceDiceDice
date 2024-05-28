@@ -17,6 +17,7 @@ dependencies:
   firebase_ui_auth: ^1.14.0
   flutter:
     sdk: flutter
+  just_audio: ^0.9.38
   provider: ^6.1.2
 
 dev_dependencies:
