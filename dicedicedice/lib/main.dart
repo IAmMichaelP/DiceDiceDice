@@ -28,9 +28,7 @@ class MyApp extends StatelessWidget {
         ),
         home: Consumer<AuthService>(
           builder: (context, auth, _) {
-            return auth.user == null
-                ? LoginScreen()
-                : HomeScreen(); // Replace HomeScreen with your actual home screen
+            return auth.user == null ? LoginScreen() : HomeScreen();
           },
         ),
         routes: {
