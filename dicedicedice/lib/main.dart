@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'service/auth_service.dart';
 import 'screens/login_screen.dart';
 import 'screens/signup_screen.dart';
+import 'screens/landing_screen.dart';
 import 'dart:ui' show lerpDouble;
 
 void main() async {
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         ),
         home: Consumer<AuthService>(
           builder: (context, auth, _) {
-            return auth.user == null ? LoginScreen() : HomeScreen();
+            return auth.user == null ? WelcomeScreen() : HomeScreen();
           },
         ),
         routes: {
