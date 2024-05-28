@@ -116,10 +116,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                     'Email and password do not match';
                               });
                             }
-                            Navigator.pushNamed(
-                              context,
-                              '/home',
-                            );
                           }
                         } catch (e) {
                           setState(() {
