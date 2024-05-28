@@ -23,8 +23,7 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        child: Align(
-          alignment: Alignment.topCenter,
+        child: Center(
           child: Column(
             children: [
               const Text('Welcome to the Home Screen!'),
@@ -34,28 +33,13 @@ class HomeScreen extends StatelessWidget {
               ),
               Center(
                 child: Hero(
-                    tag: 'tag',
-                    flightShuttleBuilder: (flightContext, animation, direction,
-                        fromContext, toContext) {
-                      return AnimatedBuilder(
-                        animation:
-                            animation, // Animation for the Hero transition
-                        builder: (context, child) {
-                          return ClipOval(
-                            clipper: _OvalClipper(animation
-                                .value), // Apply clipping based on animation value
-                            child: child,
-                          );
-                        },
-                        child: Image.asset(
-                          'assets/logo.png', // Image for the transition animation
-                          width: 100,
-                          height: 100,
-                        ),
-                      );
-                    },
-                    child: Image.asset('assets/logo.png',
-                        width: 100, height: 100)),
+                  tag: 'tag',
+                  child: Image.asset(
+                    'assets/logo.png', // Image for the transition animation
+                    width: 200,
+                    height: 200,
+                  ),
+                ),
               ),
             ],
           ),
@@ -83,24 +67,6 @@ class MyWidget2 extends StatelessWidget {
         alignment: Alignment.topCenter,
         child: Hero(
           tag: 'tag',
-          flightShuttleBuilder:
-              (flightContext, animation, direction, fromContext, toContext) {
-            return AnimatedBuilder(
-              animation: animation, // Animation for the Hero transition
-              builder: (context, child) {
-                return ClipOval(
-                  clipper: _OvalClipper(animation
-                      .value), // Apply clipping based on animation value
-                  child: child,
-                );
-              },
-              child: Image.asset(
-                'assets/logo.png', // Image for the transition animation
-                width: 100,
-                height: 100,
-              ),
-            );
-          },
           child: Image.asset(
             'assets/logo.png', // Image for the transition animation
             width: 200,
@@ -114,27 +80,4 @@ class MyWidget2 extends StatelessWidget {
       ),
     );
   }
-}
-
-class _OvalClipper extends CustomClipper<Rect> {
-  final double progress; // Progress of the animation
-
-  _OvalClipper(this.progress);
-
-  @override
-  Rect getClip(Size size) {
-    final double offset = size.width *
-        0.5 *
-        progress; // Calculate offset based on animation progress
-    return Rect.fromLTRB(
-      -offset,
-      -offset,
-      size.width + offset,
-      size.height + offset,
-    ); // Define the clipping rectangle
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Rect> oldClipper) =>
-      true; // Always reclip for changes
 }
