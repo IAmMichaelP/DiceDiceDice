@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'roll_screen.dart';
+// import 'roll_screen.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => AddChoicesScreen(),
-        '/roll_dice': (context) => RollDiceScreen(question: '',choices: [],),
+        // '/roll_dice': (context) => RollDiceScreen(question: '',choices: [],),
       },
     );
   }
@@ -43,7 +43,8 @@ class _AddChoicesScreenState extends State<AddChoicesScreen> {
     final args = ModalRoute.of(context)?.settings.arguments;
     _diceSide = args as int? ?? 6; // Default value of 6
     _controllers.clear(); // Clear existing controllers before adding new ones
-    _choices = List<String>.filled(_diceSide, ''); // Initialize _choices with empty strings
+    _choices = List<String>.filled(
+        _diceSide, ''); // Initialize _choices with empty strings
     for (int i = 0; i < _diceSide; i++) {
       _controllers.add(TextEditingController());
     }
@@ -150,17 +151,17 @@ class _AddChoicesScreenState extends State<AddChoicesScreen> {
                   _choices = choices;
                 });
                 String question = _questionController.text;
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RollDiceScreen(
-                      question: question,
-                      choices: choices,
-                    ),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => RollDiceScreen(
+                //       question: question,
+                //       choices: choices,
+                //     ),
+                //   ),
+                // );
               },
-        style: ElevatedButton.styleFrom(
+              style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xFF181415),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
@@ -177,7 +178,9 @@ class _AddChoicesScreenState extends State<AddChoicesScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 25,),
+            SizedBox(
+              height: 25,
+            ),
           ],
         ),
       ),
