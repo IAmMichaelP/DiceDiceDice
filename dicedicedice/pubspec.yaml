@@ -31,13 +31,38 @@ flutter:
     - assets/
     - assets/NewRocker-Regular.ttf
     # - assets/
-    # - assets/ddd_logo.png
-    # - assets/d4.png
-    # - assets/d6.png
-    # - assets/d8.png
-    # - assets/d10.png
-    # - assets/d12.png
-    # - assets/d20.png
+    - assets/ddd_logo.png
+    - assets/d4.png
+    - assets/d6.png
+    - assets/d8.png
+    - assets/d10.png
+    - assets/d12.png
+    - assets/d20.png
+    - assets/Dice-cider.png
+    - assets/audios/rolling-dice.mp3
+    - assets/Dice-cider.png
+    - assets/subtitle.png
+    - assets/d20/1d20.png
+    - assets/d20/2d20.png
+    - assets/d20/3d20.png
+    - assets/d20/4d20.png
+    - assets/d20/5d20.png
+    - assets/d20/6d20.png
+    - assets/d20/7d20.png
+    - assets/d20/8d20.png
+    - assets/d20/9d20.png
+    - assets/d20/10d20.png
+    - assets/d20/11d20.png
+    - assets/d20/12d20.png
+    - assets/d20/13d20.png
+    - assets/d20/14d20.png
+    - assets/d20/15d20.png
+    - assets/d20/16d20.png
+    - assets/d20/17d20.png
+    - assets/d20/18d20.png
+    - assets/d20/19d20.png
+    - assets/d20/20d20.png
+
   fonts:
     - family: NewRocker
       fonts:

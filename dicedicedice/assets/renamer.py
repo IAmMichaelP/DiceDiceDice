@@ -32,7 +32,7 @@ def rename_images(folder_path, prefix, start_number=1):
         # Replace backslashes with forward slashes in the file path
         file_path = file_path.replace('\\', '/')
         # Print the modified file path
-        print("'"+file_path+"'"+',')
+        print("'assets/"+file_path+"'"+',')
 
 # Example usage
 dice = "d20"
