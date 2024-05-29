@@ -65,7 +65,7 @@ class _AddChoicesScreenState extends State<AddChoicesScreen> {
       appBar: AppBar(
         backgroundColor: Color(0xFF181415),
         title: Text(
-          'Add Choices',
+          'ASK A QUESTION',
           style: TextStyle(
             fontFamily: 'NewRocker',
             fontSize: 30,
@@ -81,6 +81,7 @@ class _AddChoicesScreenState extends State<AddChoicesScreen> {
         child: Column(
           children: [
             TextField(
+              maxLines: null,
               controller: _questionController,
               onChanged: (value) {
                 setState(() {
@@ -89,22 +90,23 @@ class _AddChoicesScreenState extends State<AddChoicesScreen> {
               },
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Color(0xFF2E353D),
+                fillColor: Color(0xFF8C5E33),
                 border: OutlineInputBorder(),
-                labelText: 'Question',
-                labelStyle: TextStyle(
-                  color: Color(0xFF8C5E33),
+                hintText: 'What\'s bothering you?',
+                hintStyle: TextStyle(
+                  color: Colors.white.withOpacity(0.5),
                 ),
               ),
               style: TextStyle(
-                color: Colors.white,
+                color: Colors.black,
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 50,),
             Text(
-              'Enter Choices:',
+              'STATE THE CHOICES',
               style: TextStyle(
-                fontFamily: 'Brawler',
+                fontWeight: FontWeight.bold,
+                fontFamily: 'NewRocker',
                 fontSize: 25,
                 color: Color(0xFF8C5E33),
               ),
@@ -124,11 +126,11 @@ class _AddChoicesScreenState extends State<AddChoicesScreen> {
                       },
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: Color(0xFF2E353D),
+                        fillColor: Color(0xFF263214),
                         border: OutlineInputBorder(),
-                        labelText: 'Choice ${index + 1}',
-                        labelStyle: TextStyle(
-                          color: Color(0xFF8C5E33),
+                        hintText: 'Choice ${index + 1}',
+                        hintStyle: TextStyle(
+                          color: Colors.white.withOpacity(0.5),
                         ),
                       ),
                       style: TextStyle(
@@ -141,7 +143,7 @@ class _AddChoicesScreenState extends State<AddChoicesScreen> {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
+              onPressed: (_question.isNotEmpty && _choices.any((choice) => choice.isNotEmpty)) ? () {
                 List<String> choices = _controllers
                     .where((controller) => controller.text.isNotEmpty)
                     .map((controller) => controller.text)
@@ -159,13 +161,13 @@ class _AddChoicesScreenState extends State<AddChoicesScreen> {
                     ),
                   ),
                 );
-              },
-        style: ElevatedButton.styleFrom(
+              } : null,
+              style: ElevatedButton.styleFrom(
                 backgroundColor: Color(0xFF181415),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                side: BorderSide(color: Color(0xFF042942), width: 3.0),
+                side: BorderSide(color: Color(0xFF8C5E33), width: 3.0),
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
               ),
               child: Text(
