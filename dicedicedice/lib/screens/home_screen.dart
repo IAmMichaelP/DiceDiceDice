@@ -59,6 +59,7 @@ class HomeScreen extends StatelessWidget {
           actions: [
             PopupMenuButton<String>(
               icon: const Icon(Icons.more_vert, color: Color.fromARGB(255, 254, 214, 154)),
+              color: const Color.fromRGBO(38, 50, 20, 1),
               onSelected: (String value) {
                 if (value == 'about') {
                   Navigator.push(context,
@@ -74,18 +75,34 @@ class HomeScreen extends StatelessWidget {
                 }},
               
               itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                const PopupMenuItem<String>(
+                const  PopupMenuItem<String>(
                 value: 'about',
                 child: ListTile(
-                  leading:  Icon(Icons.info), // About icon
-                  title: Text('About'),
+                  // tileColor: const Color.fromRGBO(38, 50, 20, 1), 
+                  // shape: RoundedRectangleBorder(
+                  // borderRadius: BorderRadius.circular(0),
+                  // side: const BorderSide(color: Color.fromRGBO(255, 198, 181, 181)), ),
+                  leading:   Icon(Icons.info,
+                  color: Color.fromARGB(255, 248, 227, 197)),
+                  title:  Text('About',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 198, 181, 181), 
+                  ),),
                 ),
               ),
               const PopupMenuItem<String>(
                 value: 'logout',
                 child: ListTile(
-                  leading: Icon(Icons.logout), // Logout icon
-                  title:  Text('Log Out'),
+                  // tileColor: const Color.fromRGBO(38, 50, 20, 1), 
+                  // shape: RoundedRectangleBorder(
+                  // borderRadius: BorderRadius.circular(0),
+                  // side: const BorderSide(color: Color.fromRGBO(255, 198, 181, 181)), ),
+                  leading:  Icon(Icons.logout, 
+                  color: Color.fromARGB(255, 248, 227, 197)), 
+                  title:  Text('Log Out',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 198, 181, 181), 
+                  ),),
                 ),
               ),
               ],
