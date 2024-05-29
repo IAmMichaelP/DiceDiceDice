@@ -6,17 +6,36 @@ import '../service/auth_service.dart';
 import 'dart:math';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:just_audio/just_audio.dart';
+import '../service/database_service.dart';
+import '../model/user_model.dart';
 
 class HomeScreen extends StatelessWidget {
+  final String uid;
+
+  HomeScreen({required this.uid});
+
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
+    final String? uid = authService.uid;
+    final databaseService = DatabaseService(uid: uid);
+
     timeDilation = 5.0;
 
     return Scaffold(
       backgroundColor: const Color(0xFF2C3E50),
       appBar: AppBar(
-        title: Text("User"),
+        title: StreamBuilder<UserModel>(
+            stream: databaseService.userData,
+            builder: (context, snapshot) {
+              UserModel? userData = snapshot.data;
+              print(userData);
+              print(userData!.username);
+              print("unconditionals");
+              return Text(
+                userData!.username ?? 'user1',
+              );
+            }),
         actions: [
           IconButton(
             icon: Icon(Icons.logout),

@@ -1,6 +1,5 @@
 import 'package:dicedicedice/screens/login_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dicedicedice/service/auth_service.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -47,7 +46,9 @@ class _SignupScreenState extends State<SignupScreen> {
                       const SizedBox(height: 20),
                       TextFormField(
                         onChanged: (value) {
-                          username = value;
+                          setState(() {
+                            username = value;
+                          });
                         },
                         decoration: const InputDecoration(
                             hintText: 'Enter your username',
@@ -61,7 +62,9 @@ class _SignupScreenState extends State<SignupScreen> {
                       TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         onChanged: (value) {
-                          email = value;
+                          setState(() {
+                            email = value;
+                          });
                         },
                         decoration: const InputDecoration(
                             hintText: 'Enter your email',
@@ -75,7 +78,9 @@ class _SignupScreenState extends State<SignupScreen> {
                       TextFormField(
                         obscureText: true,
                         onChanged: (value) {
-                          password = value;
+                          setState(() {
+                            password = value;
+                          });
                         },
                         decoration: InputDecoration(
                             hintText: 'Enter your password',
@@ -134,11 +139,12 @@ class _SignupScreenState extends State<SignupScreen> {
                                 setState(() {
                                   errorMessage = 'Register valid credentials';
                                 });
+                              } else {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/home',
+                                );
                               }
-                              Navigator.pushNamed(
-                                context,
-                                '/home',
-                              );
                             }
                           } catch (e) {
                             setState(() {

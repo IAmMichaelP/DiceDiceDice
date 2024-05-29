@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'signup_screen.dart';
+import 'package:dicedicedice/service/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -8,7 +8,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _auth = FirebaseAuth.instance;
+  final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
   String username = '';
   String email = '';
@@ -107,8 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         try {
                           if (_formKey.currentState!.validate()) {
                             dynamic result =
-                                await _auth.signInWithEmailAndPassword(
-                                    email: email, password: password);
+                                await _auth.signIn(email, password);
                             // Navigate to your app's home screen after successful signup
                             if (result == null) {
                               setState(() {
