@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import '../service/auth_service.dart';
 import 'dart:math';
@@ -10,6 +11,8 @@ import '../service/database_service.dart';
 import '../model/user_model.dart';
 import 'home subpages/history_bar.dart';
 import 'home subpages/home_bar.dart';
+import 'about_screen.dart';
+// import 'landing_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   final String uid;
@@ -53,15 +56,43 @@ class HomeScreen extends StatelessWidget {
               Tab(text: 'History'),
             ],
           ),
-          // actions: [
-          //   IconButton(
-          //     icon: Icon(Icons.logout),
-          //     onPressed: () async {
-          //       await authService.signOut();
-          //     },
-          //   ),
-          // ],
+          actions: [
+            PopupMenuButton<String>(
+              icon: const Icon(Icons.more_vert, color: Color.fromARGB(255, 254, 214, 154)),
+              onSelected: (String value) {
+                if (value == 'about') {
+                  Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AboutScreen()),
+                  );
+                } else if (value == 'logout') {
+                  //   authService.signOut();// sign out
+                  //   Navigator.pushAndRemoveUntil(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => WelcomeScreen()),
+                  //   (Route<dynamic> route) => false,
+                  // );
+                }},
+              
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                const PopupMenuItem<String>(
+                value: 'about',
+                child: ListTile(
+                  leading:  Icon(Icons.info), // About icon
+                  title: Text('About'),
+                ),
+              ),
+              const PopupMenuItem<String>(
+                value: 'logout',
+                child: ListTile(
+                  leading: Icon(Icons.logout), // Logout icon
+                  title:  Text('Log Out'),
+                ),
+              ),
+              ],
+              ),
+          ],
         ),
+
         body: Column(
           children: [
             Expanded(
