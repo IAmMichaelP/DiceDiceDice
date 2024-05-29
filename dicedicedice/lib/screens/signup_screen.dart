@@ -83,6 +83,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       const SizedBox(height: 25),
                       TextFormField(
+                        style: TextStyle(color: Colors.white, fontFamily: 'Brawler'),
                         onChanged: (value) {
                           setState(() {
                             username = value;
@@ -108,6 +109,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       const SizedBox(height: 10),
                       TextFormField(
+                        style: TextStyle(color: Colors.white, fontFamily: 'Brawler'),
                         keyboardType: TextInputType.emailAddress,
                         onChanged: (value) {
                           setState(() {
@@ -134,6 +136,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       const SizedBox(height: 10),
                       TextFormField(
+                        style: TextStyle(color: Colors.white, fontFamily: 'Brawler'),
                         obscureText: true,
                         onChanged: (value) {
                           setState(() {
@@ -160,6 +163,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       const SizedBox(height: 10),
                       TextFormField(
+                        style: TextStyle(color: Colors.white, fontFamily: 'Brawler', fontSize: 17),
                         obscureText: true,
                         decoration: InputDecoration(
                           hintText: 'Re-enter your password',

@@ -82,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 30),
                       // Email input
                       TextFormField(
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.white, fontFamily: 'Brawler'),
                         keyboardType: TextInputType.emailAddress,
                         onChanged: (value) {
                           email = value;
@@ -108,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 20),
                       // Password input
                       TextFormField(
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.white, fontFamily: 'Brawler'),
                         obscureText: true,
                         onChanged: (value) {
                           password = value;
