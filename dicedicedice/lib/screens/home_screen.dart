@@ -83,8 +83,10 @@ class HomeScreen extends StatelessWidget {
                   ])),
 
                   Expanded(
-                    child: TabBarView(
-                        children: <Widget>[HomeBar(uid: uid!), HistoryBar()]),
+                    child: TabBarView(children: <Widget>[
+                      HomeBar(uid: uid!),
+                      HistoryBar(uid: uid!)
+                    ]),
                   ),
                 ],
               ),

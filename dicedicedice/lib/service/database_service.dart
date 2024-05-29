@@ -36,6 +36,8 @@ class DatabaseService {
         'timeStamp': timeStamp,
         'dice': dice
       }).then((value) {
+        print("value is $value");
+
         return value;
       }).catchError((error) {
         // Handle any errors
@@ -89,5 +91,36 @@ class DatabaseService {
   // Stream of single UserModel
   Stream<UserModel> get userData {
     return userDataCollection.doc(uid).snapshots().map(_userDataFromSnapshot);
+  }
+
+  // Convert QuerySnapshot to a list of HistoryModel
+  List<HistoryModel> _historyListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      try {
+        return HistoryModel.fromDocument(doc);
+      } catch (e) {
+        print('Error converting document to HistoryModel: $e');
+        return HistoryModel(
+          uid: '',
+          question: '',
+          diceResult: 0,
+          interpretation: '',
+          timeStamp: Timestamp.now(),
+          dice: '',
+        ); // Return a default or empty HistoryModel on error
+      }
+    }).toList();
+  }
+
+  // Method to get history documents with a specific uid
+  Future<List<HistoryModel>> getHistoryWithSameUid(String uid) async {
+    try {
+      QuerySnapshot snapshot =
+          await userHistoryCollection.where('uid', isEqualTo: uid).get();
+      return _historyListFromSnapshot(snapshot);
+    } catch (e) {
+      print('Error fetching history with uid $uid: $e');
+      return []; // Return an empty list on error
+    }
   }
 }

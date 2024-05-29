@@ -107,7 +107,7 @@ class _HomeBarState extends State<HomeBar> {
       print("dice result: $diceResult");
       dice = 'd20';
       print("dice result: $dice");
-      interpretation = interpretationList[diceResult];
+      interpretation = interpretationList[diceResult ~/ 4];
       print("interpretation result: $interpretation");
       print("timestamp result: $timeStamp");
       dynamic result = await databaseService.setUserHistory(
@@ -159,12 +159,12 @@ class _HomeBarState extends State<HomeBar> {
                       onChanged: (value) {
                         question = value;
                       },
-                      // validator: (value) {
-                      //   if (value?.trim().isEmpty ?? false) {
-                      //     return "Please provide indecisiveness";
-                      //   }
-                      //   return null;
-                      // }, // Text color
+                      validator: (value) {
+                        if (value?.trim().isEmpty ?? false) {
+                          return "Please provide indecisiveness";
+                        }
+                        return null;
+                      }, // Text color
                     ),
                     const SizedBox(height: 10),
                     const SizedBox(height: 10),
