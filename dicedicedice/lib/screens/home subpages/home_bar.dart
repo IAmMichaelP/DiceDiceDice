@@ -209,6 +209,14 @@ class _HomeBarState extends State<HomeBar> {
                           }
                         });
                       },
+                      style: ElevatedButton.styleFrom(
+                        minimumSize:
+                            Size(MediaQuery.of(context).size.width * 0.7, 55),
+                        side: const BorderSide(
+                            color: Color(0xFF8C5E33), width: 2.0),
+                        backgroundColor: Color(0xFF161312), // Button color
+                        foregroundColor: Color(0xFF8C5E33), // Text color
+                      ),
                       child: const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
@@ -219,14 +227,6 @@ class _HomeBarState extends State<HomeBar> {
                             fontWeight: FontWeight.bold),
 
                         ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        minimumSize:
-                            Size(MediaQuery.of(context).size.width * 0.7, 55),
-                        side: const BorderSide(
-                            color: Color(0xFF8C5E33), width: 2.0),
-                        backgroundColor: Color(0xFF161312), // Button color
-                        foregroundColor: Color(0xFF8C5E33), // Text color
                       ),
                     ),
                     const SizedBox(height: 30),
