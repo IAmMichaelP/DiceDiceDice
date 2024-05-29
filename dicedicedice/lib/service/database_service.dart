@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../model/user_model.dart';
+import '../model/history_model.dart';
 
 class DatabaseService {
   final String? uid;
@@ -24,16 +25,23 @@ class DatabaseService {
   }
 
   // setting user history every time a new query is added
-  Future<void> setUserHistory(String question, int diceResult,
+  Future<UserModel?> setUserHistory(String question, int diceResult,
       String interpretation, Timestamp timeStamp, String dice) async {
     try {
-      await userHistoryCollection.doc(uid).set({
+      await userHistoryCollection.add({
         'uid': uid,
         'question': question,
         'diceResult': diceResult,
         'interpretation': interpretation,
         'timeStamp': timeStamp,
         'dice': dice
+      }).then((value) {
+        return value;
+      }).catchError((error) {
+        // Handle any errors
+
+        print('Error writing document: $error');
+        return null;
       });
     } catch (e) {
       print('Error setting user history: $e');
