@@ -38,6 +38,50 @@ class _HomeBarState extends State<HomeBar> {
     'positive',
     'very positive'
   ];
+  final Random random = Random();
+  int currentImageIndex = 0;
+  int counter = 1;
+
+  void rollDice() {
+    // Roll the dice
+    Timer.periodic(const Duration(milliseconds: 80), (timer) {
+      counter++;
+      setState(() {
+        currentImageIndex = random.nextInt(20);
+      });
+
+      if (counter >= 13) {
+        timer.cancel();
+        setState(() {
+          counter = 1;
+        });
+      }
+    });
+  }
+
+  final List<String> images = [
+    'assets/d20/1d20.png',
+    'assets/d20/2d20.png',
+    'assets/d20/3d20.png',
+    'assets/d20/4d20.png',
+    'assets/d20/5d20.png',
+    'assets/d20/6d20.png',
+    'assets/d20/7d20.png',
+    'assets/d20/8d20.png',
+    'assets/d20/9d20.png',
+    'assets/d20/10d20.png',
+    'assets/d20/11d20.png',
+    'assets/d20/12d20.png',
+    'assets/d20/13d20.png',
+    'assets/d20/14d20.png',
+    'assets/d20/15d20.png',
+    'assets/d20/16d20.png',
+    'assets/d20/17d20.png',
+    'assets/d20/18d20.png',
+    'assets/d20/19d20.png',
+    'assets/d20/20d20.png',
+  ];
+  final AudioPlayer player = AudioPlayer();
 
   String question = '';
   int diceResult = 0;
@@ -53,8 +97,7 @@ class _HomeBarState extends State<HomeBar> {
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
-    final GlobalKey<_MyWidget2State> _myWidgetKey =
-        GlobalKey<_MyWidget2State>();
+    final GlobalKey<_HomeBarState> _myWidgetKey = GlobalKey<_HomeBarState>();
     final authService = Provider.of<AuthService>(context);
     final String? uid = authService.uid;
     final databaseService = DatabaseService(uid: uid);
@@ -78,10 +121,18 @@ class _HomeBarState extends State<HomeBar> {
         child: Column(
           children: [
             const SizedBox(height: 30),
-            Image.asset('Dice-cider.png'),
+            Image.asset('assets/Dice-cider.png'),
             const SizedBox(height: 10),
-            Image.asset('subtitle.png'),
-            const SizedBox(height: 50),
+            Image.asset('assets/subtitle.png'),
+            const SizedBox(height: 10),
+            Transform.rotate(
+              angle: random.nextDouble() * 180,
+              child: Image.asset(
+                images[currentImageIndex],
+                height: 100,
+              ),
+            ),
+            const SizedBox(height: 10),
             Form(
                 key: _formKey,
                 child: Column(
@@ -115,26 +166,40 @@ class _HomeBarState extends State<HomeBar> {
                       //   return null;
                       // }, // Text color
                     ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    const SizedBox(height: 50),
-                    MyWidget2(key: _myWidgetKey),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
+                      onPressed: () async {
+                        // Rolling the dice
+
+                        // Sound
+                        // await player.setAsset('assets/audios/rolling-dice.mp3');
+                        // player.play();
+
+                        // Roll the dice
+                        Timer.periodic(const Duration(milliseconds: 80),
+                            (timer) {
+                          counter++;
                           setState(() {
-                            _myWidgetKey.currentState!.rollDice();
-                            diceResult =
-                                _myWidgetKey.currentState?.currentImageIndex ??
-                                    1;
-                            print("DICE RESULT: $diceResult");
+                            currentImageIndex = random.nextInt(images.length);
                           });
-                          saveQuestion();
-                        }
+
+                          if (counter >= 13) {
+                            timer.cancel();
+
+                            setState(() {
+                              counter = 1;
+                            });
+                          }
+                        });
                       },
-                      child: Text('Roll A Dice'),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          'Roll A Dice',
+                          style: TextStyle(fontSize: 26),
+                        ),
+                      ),
                       style: ElevatedButton.styleFrom(
                         minimumSize:
                             Size(MediaQuery.of(context).size.width * 0.9, 55),
@@ -153,83 +218,83 @@ class _HomeBarState extends State<HomeBar> {
   }
 }
 
-class MyWidget2 extends StatefulWidget {
-  MyWidget2({super.key});
+// class MyWidget2 extends StatefulWidget {
+//   MyWidget2({super.key});
 
-  @override
-  _MyWidget2State createState() => _MyWidget2State();
-}
+//   @override
+//   _MyWidget2State createState() => _MyWidget2State();
+// }
 
-class _MyWidget2State extends State<MyWidget2> {
-  final Random random = Random();
-  int currentImageIndex = 0;
-  int counter = 1;
+// class _MyWidget2State extends State<MyWidget2> {
+//   final Random random = Random();
+//   int currentImageIndex = 0;
+//   int counter = 1;
 
-  void rollDice() {
-    // Roll the dice
-    Timer.periodic(const Duration(milliseconds: 80), (timer) {
-      counter++;
-      setState(() {
-        currentImageIndex = random.nextInt(20);
-      });
+//   void rollDice() {
+//     // Roll the dice
+//     Timer.periodic(const Duration(milliseconds: 80), (timer) {
+//       counter++;
+//       setState(() {
+//         currentImageIndex = random.nextInt(20);
+//       });
 
-      if (counter >= 13) {
-        timer.cancel();
-        setState(() {
-          counter = 1;
-        });
-      }
-    });
-  }
+//       if (counter >= 13) {
+//         timer.cancel();
+//         setState(() {
+//           counter = 1;
+//         });
+//       }
+//     });
+//   }
 
-  final List<String> images = [
-    'd20/1d20.png',
-    'd20/2d20.png',
-    'd20/3d20.png',
-    'd20/4d20.png',
-    'd20/5d20.png',
-    'd20/6d20.png',
-    'd20/7d20.png',
-    'd20/8d20.png',
-    'd20/9d20.png',
-    'd20/10d20.png',
-    'd20/11d20.png',
-    'd20/12d20.png',
-    'd20/13d20.png',
-    'd20/14d20.png',
-    'd20/15d20.png',
-    'd20/16d20.png',
-    'd20/17d20.png',
-    'd20/18d20.png',
-    'd20/19d20.png',
-    'd20/20d20.png',
-  ];
-  final AudioPlayer player = AudioPlayer();
+//   final List<String> images = [
+//     'd20/1d20.png',
+//     'd20/2d20.png',
+//     'd20/3d20.png',
+//     'd20/4d20.png',
+//     'd20/5d20.png',
+//     'd20/6d20.png',
+//     'd20/7d20.png',
+//     'd20/8d20.png',
+//     'd20/9d20.png',
+//     'd20/10d20.png',
+//     'd20/11d20.png',
+//     'd20/12d20.png',
+//     'd20/13d20.png',
+//     'd20/14d20.png',
+//     'd20/15d20.png',
+//     'd20/16d20.png',
+//     'd20/17d20.png',
+//     'd20/18d20.png',
+//     'd20/19d20.png',
+//     'd20/20d20.png',
+//   ];
+//   final AudioPlayer player = AudioPlayer();
 
-  @override
-  Widget build(BuildContext context) {
-    timeDilation = 5.0;
+//   @override
+//   Widget build(BuildContext context) {
+//     timeDilation = 5.0;
 
-    return Align(
-      alignment: Alignment.topCenter,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Transform.rotate(
-            angle: random.nextDouble() * 180,
-            child: Image.asset(
-              images[currentImageIndex],
-              height: 100,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+//     return Align(
+//       alignment: Alignment.topCenter,
+//       child: Column(
+//         mainAxisSize: MainAxisSize.min,
+//         children: [
+//           Transform.rotate(
+//             angle: random.nextDouble() * 180,
+//             child: Image.asset(
+//               images[currentImageIndex],
+//               height: 100,
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
 
-  @override
-  void dispose() {
-    player.dispose();
-    super.dispose();
-  }
-}
+//   @override
+//   void dispose() {
+//     player.dispose();
+//     super.dispose();
+//   }
+// }
