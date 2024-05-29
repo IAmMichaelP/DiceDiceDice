@@ -8,6 +8,8 @@ import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:just_audio/just_audio.dart';
 import '../service/database_service.dart';
 import '../model/user_model.dart';
+import 'home subpages/history_bar.dart';
+import 'home subpages/home_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   final String uid;
@@ -22,58 +24,80 @@ class HomeScreen extends StatelessWidget {
 
     timeDilation = 5.0;
 
-    return Scaffold(
-      backgroundColor: const Color(0xFF2C3E50),
-      appBar: AppBar(
-        title: StreamBuilder<UserModel>(
-            stream: databaseService.userData,
-            builder: (context, snapshot) {
-              UserModel? userData = snapshot.data;
-              print(userData);
-              print(userData!.username);
-              print("unconditionals");
-              return Text(
-                userData!.username ?? 'user1',
-              );
-            }),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () async {
-              await authService.signOut();
-            },
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              const Text('Welcome to the Home Screen!'),
-              CircleAvatar(
-                backgroundImage: const AssetImage('prof.png'),
-                minRadius: MediaQuery.of(context).size.width * 0.5,
-              ),
-              Center(
-                child: Hero(
-                  tag: 'tag',
-                  child: Image.asset(
-                    'assets/logo.png', // Image for the transition animation
-                    width: 200,
-                    height: 200,
-                  ),
-                ),
-              ),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        backgroundColor: const Color(0xFF181415),
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: const Color(0xFF181415),
+          automaticallyImplyLeading: false,
+          title: StreamBuilder<UserModel>(
+              stream: databaseService.userData,
+              builder: (context, snapshot) {
+                UserModel? userData = snapshot.data;
+
+                return Text(
+                  userData!.username,
+                  style: const TextStyle(
+                      fontSize: 30,
+                      fontFamily: 'NewRocker',
+                      color: Color(0xFFF6D5B7)),
+                );
+              }),
+          bottom: const TabBar(
+            labelColor: Color(0xFFF6D5B7),
+            indicatorColor: Color(0xFFF6D5B7),
+            tabs: [
+              Tab(text: 'Home'),
+              Tab(text: 'History'),
             ],
           ),
+          // actions: [
+          //   IconButton(
+          //     icon: Icon(Icons.logout),
+          //     onPressed: () async {
+          //       await authService.signOut();
+          //     },
+          //   ),
+          // ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const MyWidget2()),
+        body: Column(
+          children: [
+            Expanded(
+              child: Stack(
+                children: [
+                  // Background image
+
+                  Positioned.fill(
+                      child: Stack(children: [
+                    Image.asset(
+                      "assets/img1.png",
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.black.withOpacity(0.5), // Dark overlay
+                    ),
+                  ])),
+
+                  Expanded(
+                    child: TabBarView(
+                        children: <Widget>[HomeBar(uid: uid!), HistoryBar()]),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-        child: const Icon(Icons.add),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const MyWidget2()),
+          ),
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }

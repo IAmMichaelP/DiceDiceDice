@@ -8,6 +8,8 @@ class DatabaseService {
   // Firestore collection reference
   final CollectionReference userDataCollection =
       FirebaseFirestore.instance.collection('userData');
+  final CollectionReference userHistoryCollection =
+      FirebaseFirestore.instance.collection('userHistory');
 
   Future<void> setUserData(String username) async {
     try {
@@ -17,6 +19,24 @@ class DatabaseService {
       });
     } catch (e) {
       print('Error setting user data: $e');
+      rethrow;
+    }
+  }
+
+  // setting user history every time a new query is added
+  Future<void> setUserHistory(String question, int diceResult,
+      String interpretation, Timestamp timeStamp, String dice) async {
+    try {
+      await userHistoryCollection.doc(uid).set({
+        'uid': uid,
+        'question': question,
+        'diceResult': diceResult,
+        'interpretation': interpretation,
+        'timeStamp': timeStamp,
+        'dice': dice
+      });
+    } catch (e) {
+      print('Error setting user history: $e');
       rethrow;
     }
   }
