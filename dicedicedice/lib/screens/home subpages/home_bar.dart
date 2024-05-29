@@ -64,7 +64,7 @@ class _HomeBarState extends State<HomeBar> {
       print("dice result: $diceResult");
       dice = 'd20';
       print("dice result: $dice");
-      interpretation = interpretationList[diceResult];
+      interpretation = interpretationList[diceResult ~/ 4];
       print("interpretation result: $interpretation");
       print("timestamp result: $timeStamp");
       dynamic result = await databaseService.setUserHistory(
@@ -108,29 +108,35 @@ class _HomeBarState extends State<HomeBar> {
                       onChanged: (value) {
                         question = value;
                       },
-                      // validator: (value) {
-                      //   if (value?.trim().isEmpty ?? false) {
-                      //     return "Please provide indecisiveness";
-                      //   }
-                      //   return null;
-                      // }, // Text color
+                      validator: (value) {
+                        if (value?.trim().isEmpty ?? false) {
+                          return "Please provide indecisiveness";
+                        }
+                        return null;
+                      }, // Text color
                     ),
                     const SizedBox(
                       height: 15,
                     ),
                     const SizedBox(height: 50),
-                    MyWidget2(key: _myWidgetKey),
+                    MyWidget2(
+                      key: _myWidgetKey,
+                      onRollComplete: (int result) {
+                        setState(() {
+                          diceResult = result;
+                          saveQuestion();
+                        });
+                      },
+                    ),
                     const SizedBox(height: 15),
                     ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          setState(() {
-                            _myWidgetKey.currentState!.rollDice();
-                            diceResult =
-                                _myWidgetKey.currentState?.currentImageIndex ??
-                                    1;
-                            print("DICE RESULT: $diceResult");
-                          });
+                          _myWidgetKey.currentState!.rollDice();
+                          diceResult =
+                              _myWidgetKey.currentState?.currentImageIndex ?? 1;
+                          print("DICE RESULT: $diceResult");
+
                           saveQuestion();
                         }
                       },
@@ -154,7 +160,8 @@ class _HomeBarState extends State<HomeBar> {
 }
 
 class MyWidget2 extends StatefulWidget {
-  MyWidget2({super.key});
+  final Function(int)? onRollComplete;
+  MyWidget2({super.key, this.onRollComplete});
 
   @override
   _MyWidget2State createState() => _MyWidget2State();
@@ -178,6 +185,10 @@ class _MyWidget2State extends State<MyWidget2> {
         setState(() {
           counter = 1;
         });
+        // Notify the parent widget that the roll is complete
+        if (widget.onRollComplete != null) {
+          widget.onRollComplete!(currentImageIndex);
+        }
       }
     });
   }
