@@ -30,7 +30,12 @@ flutter:
   assets:
     - assets/
     - assets/NewRocker-Regular.ttf
-    # - assets/
+    - assets/dice_all/d4.png
+    - assets/dice_all/d6.png
+    - assets/dice_all/d8.png
+    - assets/dice_all/d10.png
+    - assets/dice_all/d12.png
+    - assets/dice_all/d20.png
     - assets/ddd_logo.png
     - assets/d4.png
     - assets/d6.png

@@ -58,6 +58,16 @@ class _HomeBarState extends State<HomeBar> {
       }
     });
   }
+  final List<String> dice_all = [
+    'assets/d4.png',
+    'assets/d6.png',
+    'assets/d8.png',
+    'assets/d10.png',
+    'assets/d12.png',
+    'assets/d20.png',
+  ];
+  List<String> currentDiceImages = [];
+  String currentDiceType = 'd20';
 
   final List<String> images = [
     'assets/d20/1d20.png',
@@ -138,24 +148,30 @@ class _HomeBarState extends State<HomeBar> {
                 child: Column(
                   children: [
                     TextFormField(
-                      maxLines: 5,
-
+                      maxLines: 3,
                       decoration: InputDecoration(
                         constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width * 0.9),
+                            maxWidth: MediaQuery.of(context).size.width * 0.85),
                         filled: true,
                         fillColor: Color(0xFF8C5E33), // Background color
                         enabledBorder: OutlineInputBorder(
                           borderRadius:
-                              BorderRadius.circular(12.0), // Border radius
+                              BorderRadius.circular(12.0),
+                              borderSide: BorderSide(color: Color.fromARGB(255, 0, 0, 0)), 
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              5.0), // Border radius when focused
+                          borderRadius: 
+                            BorderRadius.circular(12.0), 
+                            borderSide: BorderSide(color: Color.fromARGB(255, 143, 94, 11)), // Border radius when focused
                         ),
                         hintText: 'Enter your indecisiveness here',
+                        hintStyle: const TextStyle(color: Color.fromARGB(255, 55, 44, 44),
+                        fontFamily: 'Brawler'),
                       ),
-                      style: TextStyle(color: Colors.black),
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Brawler'),
                       onChanged: (value) {
                         question = value;
                       },
@@ -197,17 +213,46 @@ class _HomeBarState extends State<HomeBar> {
                         padding: EdgeInsets.all(8.0),
                         child: Text(
                           'Roll A Dice',
-                          style: TextStyle(fontSize: 26),
+                          style: TextStyle(
+                            fontFamily: 'Brawler',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
                         minimumSize:
-                            Size(MediaQuery.of(context).size.width * 0.9, 55),
+                            Size(MediaQuery.of(context).size.width * 0.7, 55),
                         side: const BorderSide(
                             color: Color(0xFF8C5E33), width: 2.0),
                         backgroundColor: Color(0xFF161312), // Button color
                         foregroundColor: Color(0xFF8C5E33), // Text color
                       ),
+                    ),
+                    const SizedBox(height: 25),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      children: dice_all.map((diceImage) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              currentImageIndex = dice_all.indexOf(diceImage);
+                              // Colors.blue; change bg color each contnr
+                            }); //change lang laterrr
+                          },
+                          child: Container(height: 85,
+        decoration: const BoxDecoration(
+          // color: Colors.blue, // Set background color
+          // borderRadius: BorderRadius.circular(8.0), // Optional: Add border radius
+        ),
+        padding: EdgeInsets.all(8.0), // Optional: Add padding
+        child: Image.asset(
+          diceImage,
+          height: 50,
+        ),
+                          ),
+                        );
+                      }).toList(),
                     ),
                   ],
                 ))
