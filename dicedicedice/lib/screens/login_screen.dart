@@ -77,7 +77,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontFamily: 'NewRocker',
                           fontSize: 25,
                           color: Color(0xFFC36036),
-                        ),
+                          shadows:[Shadow(color: Colors.black, // Choose the color of the shadow.
+                          blurRadius: 2.0, // Adjust the blur radius for the shadow effect.
+                          offset: Offset(2.0, 2.0),),],),
                       ),
                       const SizedBox(height: 30),
                       // Email input
@@ -105,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       // Password input
                       TextFormField(
                         style: TextStyle(color: Colors.white, fontFamily: 'Brawler'),
@@ -150,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           side: BorderSide(color: Color(0xFFFF7901), width: 2.0),
-                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                          padding: EdgeInsets.symmetric(horizontal: 100, vertical: 15),
                         ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
@@ -182,7 +184,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                             child: Text(
                               'Create an Account',
-                              style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold),
+                              style: TextStyle(color: Color(0xFFFF7901), fontWeight: FontWeight.bold,
+    shadows:[Shadow(color: Colors.black, // Choose the color of the shadow.
+    blurRadius: 2.0, // Adjust the blur radius for the shadow effect.
+    offset: Offset(2.0, 2.0),),],),
                             ),
                           ),
                         ],

@@ -78,9 +78,10 @@ class _SignupScreenState extends State<SignupScreen> {
                           fontWeight: FontWeight.bold,
                           fontFamily: 'NewRocker',
                           fontSize: 25,
-                          color: Color(0xFFC36036),
+                          color: Color(0xFFC36036), shadows:[Shadow(color: Colors.black, // Choose the color of the shadow.
+                          blurRadius: 2.0, // Adjust the blur radius for the shadow effect.
+                          offset: Offset(2.0, 2.0),),],),
                         ),
-                      ),
                       const SizedBox(height: 25),
                       TextFormField(
                         style: TextStyle(color: Colors.white, fontFamily: 'Brawler'),
@@ -198,12 +199,14 @@ class _SignupScreenState extends State<SignupScreen> {
                       SizedBox(height: 30),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
+                          shadowColor: Colors.black,
+                          elevation: 10.0,
                           backgroundColor: Color(0xFF161312),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
                           side: BorderSide(color: Color(0xFFFF7901), width: 2.0),
-                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                          padding: EdgeInsets.symmetric(horizontal: 100, vertical: 15),
                         ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
@@ -224,7 +227,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             }
                           }
                         },
-                        child: const Text('Sign Up', style: TextStyle(color: Color(0xFFFF7901)),),
+                        child: const Text('Sign Up', style: TextStyle(color: Color(0xFFFF7901), fontSize: 18),),
                       ),
                       const SizedBox(height: 30),
                       Row(
@@ -234,7 +237,10 @@ class _SignupScreenState extends State<SignupScreen> {
                           GestureDetector(
                             child: const Text(
                               'Login',
-                              style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold, fontFamily: 'Brawler'),
+                              style: TextStyle(color: Color(0xFFFF7901), fontWeight: FontWeight.bold, fontFamily: 'Brawler',
+                                  shadows:[Shadow(color: Colors.black, // Choose the color of the shadow.
+    blurRadius: 2.0, // Adjust the blur radius for the shadow effect.
+    offset: Offset(2.0, 2.0),)]),
                             ),
                             onTap: () {
                               Navigator.push(
