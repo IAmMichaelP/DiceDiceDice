@@ -19,85 +19,94 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: mycolor,
-      body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  height: MediaQuery.of(context).size.height * 1.3,
-                  padding: EdgeInsets.all(16),
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                    image: AssetImage('assets/img2.png'),
-                    fit:BoxFit.cover),),
-
+      body: Stack(
+        children: [
+          // Background image
+          Stack(
+            children: [
+              Positioned.fill(
+                child: Image.asset(
+                  "assets/login_bg.png",
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Container(
+                color: Colors.black.withOpacity(0.2),
+              ),
+            ],
+          ),
+          Center(
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40.0),
                   child: Column(
-                    children: <Widget>[
-                      const SizedBox(height: 20),
-                      // Image.asset('logo.png'),
-                      const SizedBox(height: 10),
-                      // Image.asset('dice.png'), const SizedBox(height: 10),
-                      // Image.asset('subtext.png'), const SizedBox(height: 50),
-                      const Text(
-                      "DICE-CISION",
-                      style: TextStyle(
-                        fontSize: 55,
-                        fontFamily: 'NewRocker',
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(224, 109, 2, 1), 
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // App Title
+                      Stack(
+                        children: [
+                          // Outline text
+                          Text(
+                            'DICE-CIDER',
+                            style: TextStyle(
+                              fontSize: 50,
+                              fontFamily: 'NewRocker',
+                              fontWeight: FontWeight.bold,
+                              foreground: Paint()
+                                ..style = PaintingStyle.stroke
+                                ..strokeWidth = 10
+                                ..color = Color(0xFF4B0112), // Outline color
+                            ),
+                          ),
+                          Text(
+                            'DICE-CIDER',
+                            style: TextStyle(
+                              fontFamily: 'NewRocker',
+                              fontSize: 50,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFFD66B05),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    // const SizedBox(height: 5),
-                    const Text(
-                      "LET THE DICE DECIDE",
-                      style: TextStyle(
-                          fontSize: 23,
-                          fontFamily: 'NewRocker',
-                          color: Color.fromARGB(255, 202, 4, 4)),
-                    ),
-                    const SizedBox(height: 50),
-                    const Text(
-                        "Register",
+                      // Subtitle
+                      Text(
+                        'Let the dice decide',
                         style: TextStyle(
-                          fontSize: 25,
-                          fontFamily: 'NewRocker',
                           fontWeight: FontWeight.bold,
+                          fontFamily: 'NewRocker',
+                          fontSize: 25,
                           color: Color(0xFFC36036),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 25),
                       TextFormField(
                         onChanged: (value) {
                           setState(() {
                             username = value;
                           });
                         },
-                      style: const TextStyle(color: Colors.white),                   
                         decoration: InputDecoration(
-                            hintText: 'Enter your username',
-                            hintStyle: const TextStyle(color: Color.fromARGB(255, 152, 151, 151)),
-                            prefixIcon: const Icon(Icons.person_outlined,color:  Color.fromRGBO(177, 113, 16, 1)),
-                            filled: true,
-                        fillColor: const Color.fromRGBO(38, 50, 20, 1),
-                        border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(color: Color.fromARGB(255, 22, 1, 1), width: 2.0),
-                        ), 
-                        focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(color: Color.fromARGB(255, 220, 115, 29), width: 2.0),
+                          hintText: 'Enter your username',
+                          hintStyle: TextStyle(color: Colors.white70, fontFamily: 'Brawler'),
+                          prefixIcon: Icon(Icons.person_outlined, color: Colors.orange),
+                          filled: true,
+                          fillColor: Color(0xFF263214).withOpacity(.90),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
                         ),
-                            ),
                         validator: (value) {
-                          if (value?.trim().isEmpty ?? false) {
+                          if (value?.trim().isEmpty ?? true) {
                             return "Username required";
                           }
+                          return null; // Added return null
                         },
                       ),
-                      const SizedBox(height: 6),
+                      const SizedBox(height: 10),
                       TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         onChanged: (value) {
@@ -105,28 +114,25 @@ class _SignupScreenState extends State<SignupScreen> {
                             email = value;
                           });
                         },
-                      style: const TextStyle(color: Colors.white),
-                        decoration:  InputDecoration(
-                            hintText: 'Enter your email',
-                            hintStyle: const TextStyle(color: Color.fromARGB(255, 152, 151, 151)),
-                            prefixIcon: const Icon(Icons.email_outlined,color: Color.fromRGBO(177, 113, 16, 1)),
-                            filled: true,
-                        fillColor: const Color.fromRGBO(38, 50, 20, 1),
-                        border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(color: Color.fromARGB(255, 22, 1, 1), width: 2.0),
-                        ), 
-                        focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(color: Color.fromARGB(255, 220, 115, 29), width: 2.0),
-                        ),),
+                        decoration: InputDecoration(
+                          hintText: 'Enter your email',
+                          hintStyle: TextStyle(color: Colors.white70, fontFamily: 'Brawler'),
+                          prefixIcon: Icon(Icons.email_outlined, color: Colors.orange),
+                          filled: true,
+                          fillColor: Color(0xFF263214).withOpacity(.90),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+                        ),
                         validator: (value) {
-                          if (value?.trim().isEmpty ?? false) {
+                          if (value?.trim().isEmpty ?? true) {
                             return "Email required";
                           }
+                          return null; // Added return null
                         },
                       ),
-                      const SizedBox(height: 6),
+                      const SizedBox(height: 10),
                       TextFormField(
                         obscureText: true,
                         onChanged: (value) {
@@ -134,131 +140,115 @@ class _SignupScreenState extends State<SignupScreen> {
                             password = value;
                           });
                         },
-                      style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
-                            hintText: 'Enter your password',
-                            hintStyle: const TextStyle(color: Color.fromARGB(255, 152, 151, 151)),
-                            prefixIcon: const Icon(Icons.lock, color:  Color.fromRGBO(177, 113, 16, 1)),
-                            filled: true,
-                        fillColor: const Color.fromRGBO(38, 50, 20, 1),
-                        border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(color: Color.fromARGB(255, 22, 1, 1), width: 2.0),
-                        ), 
-                        focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(color: Color.fromARGB(255, 220, 115, 29), width: 2.0),
-                        ),),
+                          hintText: 'Enter your password',
+                          hintStyle: TextStyle(color: Colors.white70, fontFamily: 'Brawler'),
+                          prefixIcon: Icon(Icons.lock, color: Colors.orange),
+                          filled: true,
+                          fillColor: Color(0xFF263214).withOpacity(.90),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+                        ),
                         validator: (value) {
-                          if (value?.trim().isEmpty ?? false) {
+                          if (value?.trim().isEmpty ?? true) {
                             return "Password required";
                           }
+                          return null; // Added return null
                         },
                       ),
-                      const SizedBox(height: 6),
+                      const SizedBox(height: 10),
                       TextFormField(
                         obscureText: true,
-                        // onChanged: (value) {
-                        //   password = value;
-                        // },
-                      style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
-                            hintText: 'Re-enter your password',
-                            hintStyle:const TextStyle(color: Color.fromARGB(255, 152, 151, 151)),
-                            prefixIcon: const Icon(Icons.lock_outline, color:  Color.fromRGBO(177, 113, 16, 1)),
-                            filled: true,
-                        fillColor: const Color.fromRGBO(38, 50, 20, 1),
-                        border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(color: Color.fromARGB(255, 22, 1, 1), width: 2.0),
-                        ), 
-                        focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: const BorderSide(color: Color.fromARGB(255, 220, 115, 29), width: 2.0),
-                        ),),
+                          hintText: 'Re-enter your password',
+                          hintStyle: TextStyle(color: Colors.white70, fontFamily: 'Brawler'),
+                          prefixIcon: Icon(Icons.lock_outline, color: Colors.orange),
+                          filled: true,
+                          fillColor: Color(0xFF263214).withOpacity(.90),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+                        ),
                         validator: (value) {
-                          if (value?.trim().isEmpty ?? false) {
+                          if (value?.trim().isEmpty ?? true) {
                             return "Repeat password required";
                           }
                           if (value != password) {
                             return "Repeat password didn't match";
                           }
+                          return null; // Added return null
                         },
                       ),
-                      const SizedBox(height: 15),
+                      SizedBox(height: 15),
                       Text(
                         errorMessage,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 15,
                           color: Colors.red,
                         ),
                       ),
-                      const SizedBox(height: 30),
+                      SizedBox(height: 30),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          foregroundColor: const Color.fromRGBO(255, 121, 1, 1),
-                        backgroundColor: Color.fromRGBO(22, 19, 18, 1),
-                          minimumSize:
-                              Size(MediaQuery.of(context).size.width, 55),
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(40)),
+                          backgroundColor: Color(0xFF161312),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
                           ),
+                          side: BorderSide(color: Color(0xFFFF7901), width: 2.0),
+                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                         ),
                         onPressed: () async {
-                          try {
-                            if (_formKey.currentState!.validate()) {
-                              dynamic result =
-                                  await _auth.signUp(email, password, username);
-                              // Navigate to your app's home screen after successful signup
-                              print(result);
+                          if (_formKey.currentState!.validate()) {
+                            try {
+                              dynamic result = await _auth.signUp(email, password, username);
                               if (result == null) {
                                 setState(() {
                                   errorMessage = 'Register valid credentials';
                                 });
                               } else {
-                                Navigator.pushNamed(
-                                  context,
-                                  '/home',
-                                );
+                                Navigator.pushNamed(context, '/home');
                               }
+                            } catch (e) {
+                              setState(() {
+                                errorMessage = 'Email and password do not match';
+                              });
+                              print(e);
                             }
-                          } catch (e) {
-                            setState(() {
-                              errorMessage = 'Email and password do not match';
-                            });
-                            print(e);
                           }
                         },
-                        child: const Text('Sign Up'),
+                        child: const Text('Sign Up', style: TextStyle(color: Color(0xFFFF7901)),),
                       ),
                       const SizedBox(height: 30),
                       Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            const Text('Already have an account? ',style: TextStyle(color: Colors.white),),
-                            GestureDetector(
-                              child: const Text(
-                                'Login',
-                                style: TextStyle(
-                                color: Color.fromARGB(255, 240, 129, 60),
-                                fontWeight:FontWeight.bold,)
-                                ),
-                            
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => LoginScreen()),
-                                );
-                              },
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          const Text('Already have an account? ', style: TextStyle(color: Colors.white, fontSize: 15, fontFamily: 'Brawler'),),
+                          GestureDetector(
+                            child: const Text(
+                              'Login',
+                              style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold, fontFamily: 'Brawler'),
                             ),
-                          ]),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen()),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
-              ]),
-        ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
