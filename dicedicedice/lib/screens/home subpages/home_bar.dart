@@ -58,16 +58,6 @@ class _HomeBarState extends State<HomeBar> {
       }
     });
   }
-  final List<String> dice_all = [
-    'assets/d4.png',
-    'assets/d6.png',
-    'assets/d8.png',
-    'assets/d10.png',
-    'assets/d12.png',
-    'assets/d20.png',
-  ];
-  List<String> currentDiceImages = [];
-  String currentDiceType = 'd20';
 
   final List<String> images = [
     'assets/d20/1d20.png',
@@ -91,6 +81,16 @@ class _HomeBarState extends State<HomeBar> {
     'assets/d20/19d20.png',
     'assets/d20/20d20.png',
   ];
+  final List<String> dice_all = [
+    'assets/d4.png',
+    'assets/d6.png',
+    'assets/d8.png',
+    'assets/d10.png',
+    'assets/d12.png',
+    'assets/d20.png',
+  ];
+  List<String> currentDiceImages = [];
+  String currentDiceType = 'd20';
   final AudioPlayer player = AudioPlayer();
 
   String question = '';
@@ -134,7 +134,7 @@ class _HomeBarState extends State<HomeBar> {
             Image.asset('assets/Dice-cider.png'),
             const SizedBox(height: 10),
             Image.asset('assets/subtitle.png'),
-            const SizedBox(height: 10),
+            const SizedBox(height: 30),
             Transform.rotate(
               angle: random.nextDouble() * 180,
               child: Image.asset(
@@ -142,13 +142,13 @@ class _HomeBarState extends State<HomeBar> {
                 height: 100,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 30),
             Form(
                 key: _formKey,
                 child: Column(
                   children: [
                     TextFormField(
-                      maxLines: 3,
+                      maxLines: 4,
                       decoration: InputDecoration(
                         constraints: BoxConstraints(
                             maxWidth: MediaQuery.of(context).size.width * 0.85),
@@ -182,7 +182,7 @@ class _HomeBarState extends State<HomeBar> {
                         return null;
                       }, // Text color
                     ),
-                    const SizedBox(height: 10),
+                    // const SizedBox(height: 10),
                     const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () async {
@@ -229,7 +229,7 @@ class _HomeBarState extends State<HomeBar> {
                         foregroundColor: Color(0xFF8C5E33), // Text color
                       ),
                     ),
-                    const SizedBox(height: 25),
+                    const SizedBox(height: 30),
                     Wrap(
                       alignment: WrapAlignment.center,
                       children: dice_all.map((diceImage) {
@@ -240,7 +240,7 @@ class _HomeBarState extends State<HomeBar> {
                               // Colors.blue; change bg color each contnr
                             }); //change lang laterrr
                           },
-                          child: Container(height: 85,
+                          child: Container(height: 75,
         decoration: const BoxDecoration(
           // color: Colors.blue, // Set background color
           // borderRadius: BorderRadius.circular(8.0), // Optional: Add border radius
@@ -248,7 +248,7 @@ class _HomeBarState extends State<HomeBar> {
         padding: EdgeInsets.all(8.0), // Optional: Add padding
         child: Image.asset(
           diceImage,
-          height: 50,
+          height: 75,
         ),
                           ),
                         );

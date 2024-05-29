@@ -54,7 +54,7 @@ class HistoryBar extends StatelessWidget {
                         width: 1.0) ) ),
                     child: ListTile(
                       title: Text(
-                        'Decision: ${history.question}',
+                        ' ${history.question}',
                         style: const TextStyle(
                           color: Color.fromRGBO(173, 102, 38, 1),
                           fontSize: 15,
