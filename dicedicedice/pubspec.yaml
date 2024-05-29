@@ -29,11 +29,10 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
-
   fonts:
     - family: NewRocker
       fonts:
         - asset: assets/NewRocker-Regular.ttf
-    # - family: Brawler
-    #   fonts:
-    #     - asset: assets/Brawler-Regular.ttf
+    - family: Brawler
+      fonts:
+        - asset: assets/Brawler-Regular.ttf
