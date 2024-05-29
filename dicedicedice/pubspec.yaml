@@ -29,6 +29,18 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+<<<<<<< Updated upstream
+=======
+    # - assets/NewRocker-Regular.ttf
+    # - assets/
+    # - assets/ddd_logo.png
+    # - assets/d4.png
+    # - assets/d6.png
+    # - assets/d8.png
+    # - assets/d10.png
+    # - assets/d12.png
+    # - assets/d20.png
+>>>>>>> Stashed changes
   fonts:
     - family: NewRocker
       fonts:
