@@ -19,7 +19,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: mycolor,
+      // backgroundColor: mycolor,
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -29,19 +29,44 @@ class _SignupScreenState extends State<SignupScreen> {
                 Container(
                   height: MediaQuery.of(context).size.height * 1.3,
                   padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadiusDirectional.circular(250)),
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                    image: AssetImage('assets/img2.png'),
+                    fit:BoxFit.cover),),
+
                   child: Column(
                     children: <Widget>[
                       const SizedBox(height: 20),
                       // Image.asset('logo.png'),
                       const SizedBox(height: 10),
-                      Image.asset('dice.png'), const SizedBox(height: 10),
-                      Image.asset('subtext.png'), const SizedBox(height: 50),
+                      // Image.asset('dice.png'), const SizedBox(height: 10),
+                      // Image.asset('subtext.png'), const SizedBox(height: 50),
                       const Text(
+                      "DICE-CISION",
+                      style: TextStyle(
+                        fontSize: 55,
+                        fontFamily: 'NewRocker',
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromRGBO(224, 109, 2, 1), 
+                      ),
+                    ),
+                    // const SizedBox(height: 5),
+                    const Text(
+                      "LET THE DICE DECIDE",
+                      style: TextStyle(
+                          fontSize: 23,
+                          fontFamily: 'NewRocker',
+                          color: Color.fromARGB(255, 202, 4, 4)),
+                    ),
+                    const SizedBox(height: 50),
+                    const Text(
                         "Register",
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontFamily: 'NewRocker',
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFFC36036),
+                        ),
                       ),
                       const SizedBox(height: 20),
                       TextFormField(
@@ -50,15 +75,29 @@ class _SignupScreenState extends State<SignupScreen> {
                             username = value;
                           });
                         },
-                        decoration: const InputDecoration(
+                      style: const TextStyle(color: Colors.white),                   
+                        decoration: InputDecoration(
                             hintText: 'Enter your username',
-                            prefixIcon: Icon(Icons.person_outlined)),
+                            hintStyle: const TextStyle(color: Color.fromARGB(255, 152, 151, 151)),
+                            prefixIcon: const Icon(Icons.person_outlined,color:  Color.fromRGBO(177, 113, 16, 1)),
+                            filled: true,
+                        fillColor: const Color.fromRGBO(38, 50, 20, 1),
+                        border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(color: Color.fromARGB(255, 22, 1, 1), width: 2.0),
+                        ), 
+                        focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(color: Color.fromARGB(255, 220, 115, 29), width: 2.0),
+                        ),
+                            ),
                         validator: (value) {
                           if (value?.trim().isEmpty ?? false) {
                             return "Username required";
                           }
                         },
                       ),
+                      const SizedBox(height: 6),
                       TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         onChanged: (value) {
@@ -66,15 +105,28 @@ class _SignupScreenState extends State<SignupScreen> {
                             email = value;
                           });
                         },
-                        decoration: const InputDecoration(
+                      style: const TextStyle(color: Colors.white),
+                        decoration:  InputDecoration(
                             hintText: 'Enter your email',
-                            prefixIcon: Icon(Icons.email_outlined)),
+                            hintStyle: const TextStyle(color: Color.fromARGB(255, 152, 151, 151)),
+                            prefixIcon: const Icon(Icons.email_outlined,color: Color.fromRGBO(177, 113, 16, 1)),
+                            filled: true,
+                        fillColor: const Color.fromRGBO(38, 50, 20, 1),
+                        border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(color: Color.fromARGB(255, 22, 1, 1), width: 2.0),
+                        ), 
+                        focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(color: Color.fromARGB(255, 220, 115, 29), width: 2.0),
+                        ),),
                         validator: (value) {
                           if (value?.trim().isEmpty ?? false) {
                             return "Email required";
                           }
                         },
                       ),
+                      const SizedBox(height: 6),
                       TextFormField(
                         obscureText: true,
                         onChanged: (value) {
@@ -82,23 +134,48 @@ class _SignupScreenState extends State<SignupScreen> {
                             password = value;
                           });
                         },
+                      style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                             hintText: 'Enter your password',
-                            prefixIcon: Icon(Icons.lock)),
+                            hintStyle: const TextStyle(color: Color.fromARGB(255, 152, 151, 151)),
+                            prefixIcon: const Icon(Icons.lock, color:  Color.fromRGBO(177, 113, 16, 1)),
+                            filled: true,
+                        fillColor: const Color.fromRGBO(38, 50, 20, 1),
+                        border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(color: Color.fromARGB(255, 22, 1, 1), width: 2.0),
+                        ), 
+                        focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(color: Color.fromARGB(255, 220, 115, 29), width: 2.0),
+                        ),),
                         validator: (value) {
                           if (value?.trim().isEmpty ?? false) {
                             return "Password required";
                           }
                         },
                       ),
+                      const SizedBox(height: 6),
                       TextFormField(
                         obscureText: true,
                         // onChanged: (value) {
                         //   password = value;
                         // },
-                        decoration: const InputDecoration(
+                      style: const TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
                             hintText: 'Re-enter your password',
-                            prefixIcon: Icon(Icons.lock_outline)),
+                            hintStyle:const TextStyle(color: Color.fromARGB(255, 152, 151, 151)),
+                            prefixIcon: const Icon(Icons.lock_outline, color:  Color.fromRGBO(177, 113, 16, 1)),
+                            filled: true,
+                        fillColor: const Color.fromRGBO(38, 50, 20, 1),
+                        border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(color: Color.fromARGB(255, 22, 1, 1), width: 2.0),
+                        ), 
+                        focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(color: Color.fromARGB(255, 220, 115, 29), width: 2.0),
+                        ),),
                         validator: (value) {
                           if (value?.trim().isEmpty ?? false) {
                             return "Repeat password required";
@@ -108,20 +185,20 @@ class _SignupScreenState extends State<SignupScreen> {
                           }
                         },
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Text(
                         errorMessage,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 15,
                           color: Colors.red,
                         ),
                       ),
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: const Color(0xFF3498DB),
+                          foregroundColor: const Color.fromRGBO(255, 121, 1, 1),
+                        backgroundColor: Color.fromRGBO(22, 19, 18, 1),
                           minimumSize:
                               Size(MediaQuery.of(context).size.width, 55),
                           shape: const RoundedRectangleBorder(
@@ -159,12 +236,15 @@ class _SignupScreenState extends State<SignupScreen> {
                       Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            const Text('Already have an account? '),
+                            const Text('Already have an account? ',style: TextStyle(color: Colors.white),),
                             GestureDetector(
                               child: const Text(
                                 'Login',
-                                style: TextStyle(color: Color(0xFF3498DB)),
-                              ),
+                                style: TextStyle(
+                                color: Color.fromARGB(255, 240, 129, 60),
+                                fontWeight:FontWeight.bold,)
+                                ),
+                            
                               onTap: () {
                                 Navigator.push(
                                   context,

@@ -55,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         fontSize: 55,
                         fontFamily: 'NewRocker',
                         fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(195, 94, 0, 1), // Fill color
+                        color: Color.fromRGBO(248, 122, 4, 1), 
                         // foreground:  Paint()
                         // ..style = PaintingStyle.stroke
                         // ..strokeWidth = 1
@@ -63,14 +63,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         // decorationColor: Color(0xFF9A6738),
                       ),
                     ),
-                    const SizedBox(height: 5),
-                    // Image.asset('subtext.png'),
+                    
+                    // const SizedBox(height: 5),
                     const Text(
                       "LET THE DICE DECIDE",
                       style: TextStyle(
                           fontSize: 23,
                           fontFamily: 'NewRocker',
-                          color: Color(0xFFE73C3C)),
+                          color: Color.fromARGB(255, 219, 2, 2)),
                     ),
                   const SizedBox(height: 50),
                    const Text(
@@ -89,21 +89,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       onChanged: (value) {
                         email = value;
                       },
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                       decoration: InputDecoration(
-                          hintText: 'Enter your email',
-                          hintStyle: TextStyle(color: Colors.white),
-                          prefixIcon: Icon(Icons.email_outlined,color: const Color.fromRGBO(177, 113, 16, 1)),
-                          filled: true,
-                          fillColor: Color.fromRGBO(38, 50, 20, 1),
-                          border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Color.fromARGB(255, 22, 1, 1), width: 2.0),
-                      ), 
-                      focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Color.fromARGB(255, 220, 115, 29), width: 2.0),
-                      ),),
+                        hintText: 'Enter your email',
+                        hintStyle: const TextStyle(color: Color.fromARGB(255, 152, 151, 151)),
+                        prefixIcon: const Icon(Icons.email_outlined,color: Color.fromRGBO(177, 113, 16, 1)),
+                        filled: true,
+                        fillColor: const Color.fromRGBO(38, 50, 20, 1),
+                        border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(color: Color.fromARGB(255, 22, 1, 1), width: 2.0),
+                        ), 
+                        focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: const BorderSide(color: Color.fromARGB(255, 220, 115, 29), width: 2.0),
+                        ),),
 
                       validator: (value) {
                         if (value?.trim().isEmpty ?? false) {
@@ -120,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                           hintText: 'Enter your password',
-                          hintStyle: TextStyle(color: Colors.white),
+                          hintStyle: TextStyle(color: const Color.fromARGB(255, 152, 151, 151)),
                           prefixIcon: Icon(Icons.lock, color: const Color.fromRGBO(177, 113, 16, 1)),
                           filled: true,
                           fillColor: Color.fromRGBO(38, 50, 20, 1),
