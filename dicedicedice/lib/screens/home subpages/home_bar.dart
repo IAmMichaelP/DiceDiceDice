@@ -241,15 +241,14 @@ class _HomeBarState extends State<HomeBar> {
                             }); //change lang laterrr
                           },
                           child: Container(height: 75,
-        decoration: const BoxDecoration(
-          // color: Colors.blue, // Set background color
-          // borderRadius: BorderRadius.circular(8.0), // Optional: Add border radius
-        ),
-        padding: EdgeInsets.all(8.0), // Optional: Add padding
-        child: Image.asset(
-          diceImage,
-          height: 75,
-        ),
+                          decoration: const BoxDecoration(
+                          // color: Colors.blue, 
+                          // borderRadius: BorderRadius.circular(8.0), 
+                          ),
+                          padding: EdgeInsets.all(8.0), 
+                          child: Image.asset(
+                            diceImage,
+                            height: 75,    ),
                           ),
                         );
                       }).toList(),

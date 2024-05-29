@@ -38,7 +38,11 @@ class HistoryBar extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No history found for UID $uid'));
+            return Center(child: Text('No history found for UID $uid', style: const TextStyle(
+                          color: Color.fromRGBO(243, 242, 241, 1),
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                      ),));
           } else {
             List<HistoryModel> historyList = snapshot.data!;
             return ListView.builder(
