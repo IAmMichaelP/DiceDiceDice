@@ -2,5 +2,5 @@ class UserModel {
   String uid;
   String username;
 
-  UserModel(this.uid, this.username);
+  UserModel({required this.uid, required this.username});
 }
