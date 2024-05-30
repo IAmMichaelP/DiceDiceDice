@@ -34,7 +34,7 @@ class _HomeBarState extends State<HomeBar> {
   int counter = 1;
   int diceResult = 0;
   int diceMax = 0;
-  String diceType = '';
+  String diceType = 'd20';
 
   final List<String> d20_images = [
     'assets/d20/1d20.png',
@@ -240,10 +240,10 @@ class _HomeBarState extends State<HomeBar> {
           diceMax = 12;
           break;
         case 5:
-          // default:
           currentDiceImages = d20_images;
           diceType = 'd20';
           diceMax = 20;
+          break;
       }
     }
 
