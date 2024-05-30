@@ -8,7 +8,6 @@ import 'screens/login_screen.dart';
 import 'screens/signup_screen.dart';
 import 'screens/landing_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'dart:ui' as ui show Canvas, Paint, Path, lerpDouble;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

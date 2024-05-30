@@ -141,20 +141,20 @@ class _HomeBarState extends State<HomeBar> {
     final databaseService = DatabaseService(uid: uid);
 
     void saveQuestion() async {
-      print("dice result: $diceResult");
-      // dice = "$currentDiceImages"; // Save the current dice type
-      print("dice result: $dice");
+      // print("dice result: $diceResult");
+
+      // print("dice result: $dice");
 
       interpretation = interpretationList[diceResult - 1];
-
-      // interpretation =
-      //     interpretationList[diceResult ~/ (20 / interpretationList.length)];
-      print("interpretation result: $interpretation");
-      print("timestamp result: $timeStamp");
-      dynamic result = await databaseService.setUserHistory(
-          question, diceResult, interpretation, timeStamp, dice);
-      print(result);
-      print('history');
+      // print("interpretation result: $interpretation");
+      // print("timestamp result: $timeStamp");
+      try {
+        await databaseService.setUserHistory(
+            question, diceResult, interpretation, timeStamp, dice);
+      } catch (e) {
+        print('Error: $e');
+        rethrow;
+      }
     }
 
     void rollDice() {
