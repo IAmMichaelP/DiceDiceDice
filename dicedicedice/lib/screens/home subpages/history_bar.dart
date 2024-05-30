@@ -24,7 +24,7 @@ class HistoryBar extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No history found for UID $uid'));
+            return Center(child: Text('Empty'));
           } else {
             List<HistoryModel> historyList = snapshot.data!;
             // Sort historyList by timeStamp
@@ -36,7 +36,7 @@ class HistoryBar extends StatelessWidget {
                 return ListTile(
                   title: Text('Question: ${history.question}'),
                   subtitle: Text(
-                      'Dice Result: ${history.diceResult}, Interpretation: ${history.interpretation}'),
+                      'Dice: ${history.dice}, Dice Result: ${history.diceResult}, Interpretation: ${history.interpretation}'),
                   trailing: Text(history.timeStamp.toDate().toString()),
                 );
               },

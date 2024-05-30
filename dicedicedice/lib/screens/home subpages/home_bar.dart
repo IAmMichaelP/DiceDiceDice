@@ -119,6 +119,7 @@ class _HomeBarState extends State<HomeBar> {
   String interpretation = '';
   Timestamp timeStamp = Timestamp.now();
   String dice = '';
+  List<String> diceType = ['d4', 'd6', 'd8', 'd10', 'd12', 'd20'];
 
   @override
   void initState() {
@@ -141,10 +142,13 @@ class _HomeBarState extends State<HomeBar> {
 
     void saveQuestion() async {
       print("dice result: $diceResult");
-      dice = "$currentDiceImages"; // Save the current dice type
+      // dice = "$currentDiceImages"; // Save the current dice type
       print("dice result: $dice");
-      interpretation =
-          interpretationList[diceResult ~/ (20 / interpretationList.length)];
+
+      interpretation = interpretationList[diceResult - 1];
+
+      // interpretation =
+      //     interpretationList[diceResult ~/ (20 / interpretationList.length)];
       print("interpretation result: $interpretation");
       print("timestamp result: $timeStamp");
       dynamic result = await databaseService.setUserHistory(
@@ -189,8 +193,9 @@ class _HomeBarState extends State<HomeBar> {
         case 4:
           currentDiceImages = d12_images;
           break;
-        case 5:
+        // case 5:
         default:
+          dice = 'd20';
           currentDiceImages = d20_images;
       }
     }
@@ -286,6 +291,7 @@ class _HomeBarState extends State<HomeBar> {
                         return GestureDetector(
                           onTap: () {
                             setState(() {
+                              dice = diceType[dice_all.indexOf(diceImage)];
                               updateDiceImages(dice_all.indexOf(diceImage));
                             });
                           },
