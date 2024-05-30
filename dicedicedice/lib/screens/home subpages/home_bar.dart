@@ -140,11 +140,11 @@ class _HomeBarState extends State<HomeBar> {
     final databaseService = DatabaseService(uid: uid);
 
     void saveQuestion() async {
-      // diceResult = _myWidgetKey.currentState!.currentImageIndex;
       print("dice result: $diceResult");
-      dice = 'd20';
+      dice = "$currentDiceImages"; // Save the current dice type
       print("dice result: $dice");
-      interpretation = interpretationList[diceResult ~/ 4];
+      interpretation =
+          interpretationList[diceResult ~/ (20 / interpretationList.length)];
       print("interpretation result: $interpretation");
       print("timestamp result: $timeStamp");
       dynamic result = await databaseService.setUserHistory(
@@ -256,7 +256,9 @@ class _HomeBarState extends State<HomeBar> {
                     const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () async {
-                        rollDice();
+                        if (_formKey.currentState?.validate() ?? false) {
+                          rollDice();
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize:
@@ -284,16 +286,11 @@ class _HomeBarState extends State<HomeBar> {
                         return GestureDetector(
                           onTap: () {
                             setState(() {
-                              currentImageIndex = dice_all.indexOf(diceImage);
-                              updateDiceImages(currentImageIndex);
+                              updateDiceImages(dice_all.indexOf(diceImage));
                             });
                           },
                           child: Container(
                             height: 75,
-                            decoration: const BoxDecoration(
-                                // color: Colors.blue,
-                                // borderRadius: BorderRadius.circular(8.0),
-                                ),
                             padding: EdgeInsets.all(8.0),
                             child: Image.asset(
                               diceImage,

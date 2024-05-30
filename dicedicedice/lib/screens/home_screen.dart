@@ -12,6 +12,7 @@ import '../model/user_model.dart';
 import 'home subpages/history_bar.dart';
 import 'home subpages/home_bar.dart';
 import 'about_screen.dart';
+import '../screens/landing_screen.dart';
 // import 'landing_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -58,55 +59,60 @@ class HomeScreen extends StatelessWidget {
           ),
           actions: [
             PopupMenuButton<String>(
-              icon: const Icon(Icons.more_vert, color: Color.fromARGB(255, 254, 214, 154)),
+              icon: const Icon(Icons.more_vert,
+                  color: Color.fromARGB(255, 254, 214, 154)),
               color: const Color.fromRGBO(38, 50, 20, 1),
               onSelected: (String value) {
                 if (value == 'about') {
-                  Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AboutScreen()),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AboutScreen()),
                   );
                 } else if (value == 'logout') {
-                  //   authService.signOut();// sign out
-                  //   Navigator.pushAndRemoveUntil(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => WelcomeScreen()),
-                  //   (Route<dynamic> route) => false,
-                  // );
-                }},
-              
+                  authService.signOut(); // sign out
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => WelcomeScreen()),
+                  );
+                }
+              },
               itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                const  PopupMenuItem<String>(
-                value: 'about',
-                child: ListTile(
-                  // tileColor: const Color.fromRGBO(38, 50, 20, 1), 
-                  // shape: RoundedRectangleBorder(
-                  // borderRadius: BorderRadius.circular(0),
-                  // side: const BorderSide(color: Color.fromRGBO(255, 198, 181, 181)), ),
-                  leading:   Icon(Icons.info,
-                  color: Color.fromARGB(255, 248, 227, 197)),
-                  title:  Text('About',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 198, 181, 181), 
-                  ),),
+                const PopupMenuItem<String>(
+                  value: 'about',
+                  child: ListTile(
+                    // tileColor: const Color.fromRGBO(38, 50, 20, 1),
+                    // shape: RoundedRectangleBorder(
+                    // borderRadius: BorderRadius.circular(0),
+                    // side: const BorderSide(color: Color.fromRGBO(255, 198, 181, 181)), ),
+                    leading: Icon(Icons.info,
+                        color: Color.fromARGB(255, 248, 227, 197)),
+                    title: Text(
+                      'About',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 198, 181, 181),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              const PopupMenuItem<String>(
-                value: 'logout',
-                child: ListTile(
-                  // tileColor: const Color.fromRGBO(38, 50, 20, 1), 
-                  // shape: RoundedRectangleBorder(
-                  // borderRadius: BorderRadius.circular(0),
-                  // side: const BorderSide(color: Color.fromRGBO(255, 198, 181, 181)), ),
-                  leading:  Icon(Icons.logout, 
-                  color: Color.fromARGB(255, 248, 227, 197)), 
-                  title:  Text('Log Out',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 198, 181, 181), 
-                  ),),
+                const PopupMenuItem<String>(
+                  value: 'logout',
+                  child: ListTile(
+                    // tileColor: const Color.fromRGBO(38, 50, 20, 1),
+                    // shape: RoundedRectangleBorder(
+                    // borderRadius: BorderRadius.circular(0),
+                    // side: const BorderSide(color: Color.fromRGBO(255, 198, 181, 181)), ),
+                    leading: Icon(Icons.logout,
+                        color: Color.fromARGB(255, 248, 227, 197)),
+                    title: Text(
+                      'Log Out',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 198, 181, 181),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
               ],
-              ),
+            ),
           ],
         ),
 
