@@ -32,24 +32,6 @@ class _HomeBarState extends State<HomeBar> {
   int counter = 1;
   int diceResult = 0;
 
-  void rollDice() {
-    // Roll the dice
-    Timer.periodic(const Duration(milliseconds: 80), (timer) {
-      counter++;
-      setState(() {
-        currentImageIndex = random.nextInt(currentDiceImages.length);
-        diceResult = currentImageIndex;
-      });
-
-      if (counter >= 13) {
-        timer.cancel();
-        setState(() {
-          counter = 1;
-        });
-      }
-    });
-  }
-
   final List<String> d20_images = [
     'assets/d20/1d20.png',
     'assets/d20/2d20.png',
@@ -171,6 +153,25 @@ class _HomeBarState extends State<HomeBar> {
       print('history');
     }
 
+    void rollDice() {
+      // Roll the dice
+      Timer.periodic(const Duration(milliseconds: 80), (timer) {
+        counter++;
+        setState(() {
+          currentImageIndex = random.nextInt(currentDiceImages.length);
+        });
+        if (counter >= 13) {
+          timer.cancel();
+          setState(() {
+            counter = 1;
+            diceResult = currentImageIndex + 1;
+            print('dice result: $diceResult');
+            saveQuestion();
+          });
+        }
+      });
+    }
+
     void updateDiceImages(int index) {
       switch (index) {
         case 0:
@@ -256,8 +257,6 @@ class _HomeBarState extends State<HomeBar> {
                     ElevatedButton(
                       onPressed: () async {
                         rollDice();
-
-                        saveQuestion();
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize:
