@@ -68,6 +68,47 @@ flutter:
     - assets/d20/18d20.png
     - assets/d20/19d20.png
     - assets/d20/20d20.png
+    - assets/d12/1d12.png
+    - assets/d12/2d12.png
+    - assets/d12/3d12.png
+    - assets/d12/4d12.png
+    - assets/d12/5d12.png
+    - assets/d12/6d12.png
+    - assets/d12/7d12.png
+    - assets/d12/8d12.png
+    - assets/d12/9d12.png
+    - assets/d12/10d12.png
+    - assets/d12/11d12.png
+    - assets/d12/12d12.png
+    - assets/d10/0d10.png
+    - assets/d10/1d10.png
+    - assets/d10/2d10.png
+    - assets/d10/3d10.png
+    - assets/d10/4d10.png
+    - assets/d10/5d10.png
+    - assets/d10/6d10.png
+    - assets/d10/7d10.png
+    - assets/d10/8d10.png
+    - assets/d10/9d10.png
+    - assets/d8/1d8.png
+    - assets/d8/2d8.png
+    - assets/d8/3d8.png
+    - assets/d8/4d8.png
+    - assets/d8/5d8.png
+    - assets/d8/6d8.png
+    - assets/d8/7d8.png
+    - assets/d8/8d8.png
+    - assets/d6/1d6.png
+    - assets/d6/2d6.png
+    - assets/d6/3d6.png
+    - assets/d6/4d6.png
+    - assets/d6/5d6.png
+    - assets/d6/6d6.png
+    - assets/d4/1d4.png
+    - assets/d4/2d4.png
+    - assets/d4/3d4.png
+    - assets/d4/4d4.png
+
 
   fonts:
     - family: NewRocker

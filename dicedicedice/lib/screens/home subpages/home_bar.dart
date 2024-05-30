@@ -9,20 +9,6 @@ import 'dart:async';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-// class HomeBar extends StatelessWidget {
-//   // const HomeBar({super.key});
-//   // final UserModel userData = UserModel();
-//   final _myWidgetKey = GlobalKey<_MyWidget2State>();
-//   final String uid;
-
-//   HomeBar({required this.uid});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return HomeBar();
-//   }
-// }
-
 class HomeBar extends StatefulWidget {
   final String uid;
   HomeBar({required this.uid});
@@ -32,6 +18,9 @@ class HomeBar extends StatefulWidget {
 }
 
 class _HomeBarState extends State<HomeBar> {
+  final FocusNode _focusNode =
+      FocusNode(); // Define FocusNode for TextFormField
+  bool _textFieldFocused = false; // Track if TextFormField has focus
   List<String> interpretationList = [
     'very negative',
     'negative',
@@ -41,25 +30,9 @@ class _HomeBarState extends State<HomeBar> {
   final Random random = Random();
   int currentImageIndex = 0;
   int counter = 1;
+  int diceResult = 0;
 
-  void rollDice() {
-    // Roll the dice
-    Timer.periodic(const Duration(milliseconds: 80), (timer) {
-      counter++;
-      setState(() {
-        currentImageIndex = random.nextInt(20);
-      });
-
-      if (counter >= 13) {
-        timer.cancel();
-        setState(() {
-          counter = 1;
-        });
-      }
-    });
-  }
-
-  final List<String> images = [
+  final List<String> d20_images = [
     'assets/d20/1d20.png',
     'assets/d20/2d20.png',
     'assets/d20/3d20.png',
@@ -81,23 +54,77 @@ class _HomeBarState extends State<HomeBar> {
     'assets/d20/19d20.png',
     'assets/d20/20d20.png',
   ];
+  final List<String> d12_images = [
+    'assets/d12/1d12.png',
+    'assets/d12/2d12.png',
+    'assets/d12/3d12.png',
+    'assets/d12/4d12.png',
+    'assets/d12/5d12.png',
+    'assets/d12/6d12.png',
+    'assets/d12/7d12.png',
+    'assets/d12/8d12.png',
+    'assets/d12/9d12.png',
+    'assets/d12/10d12.png',
+    'assets/d12/11d12.png',
+    'assets/d12/12d12.png',
+  ];
+  final List<String> d10_images = [
+    'assets/d10/1d10.png',
+    'assets/d10/2d10.png',
+    'assets/d10/3d10.png',
+    'assets/d10/4d10.png',
+    'assets/d10/5d10.png',
+    'assets/d10/6d10.png',
+    'assets/d10/7d10.png',
+    'assets/d10/8d10.png',
+    'assets/d10/9d10.png',
+    'assets/d10/10d10.png',
+  ];
+  final List<String> d8_images = [
+    'assets/d8/1d8.png',
+    'assets/d8/2d8.png',
+    'assets/d8/3d8.png',
+    'assets/d8/4d8.png',
+    'assets/d8/5d8.png',
+    'assets/d8/6d8.png',
+    'assets/d8/7d8.png',
+    'assets/d8/8d8.png',
+  ];
+  final List<String> d6_images = [
+    'assets/d6/1d6.png',
+    'assets/d6/2d6.png',
+    'assets/d6/3d6.png',
+    'assets/d6/4d6.png',
+    'assets/d6/5d6.png',
+    'assets/d6/6d6.png',
+  ];
+  final List<String> d4_images = [
+    'assets/d4/1d4.png',
+    'assets/d4/2d4.png',
+    'assets/d4/3d4.png',
+    'assets/d4/4d4.png',
+  ];
   final List<String> dice_all = [
-    'assets/d4.png',
-    'assets/d6.png',
-    'assets/d8.png',
-    'assets/d10.png',
-    'assets/d12.png',
-    'assets/d20.png',
+    'assets/d4/4d4.png',
+    'assets/d6/6d6.png',
+    'assets/d8/8d8.png',
+    'assets/d10/9d10.png',
+    'assets/d12/12d12.png',
+    'assets/d20/20d20.png',
   ];
   List<String> currentDiceImages = [];
-  String currentDiceType = 'd20';
   final AudioPlayer player = AudioPlayer();
 
   String question = '';
-  int diceResult = 0;
   String interpretation = '';
   Timestamp timeStamp = Timestamp.now();
   String dice = '';
+
+  @override
+  void initState() {
+    super.initState();
+    currentDiceImages = d20_images; // default dice images
+  }
 
   @override
   void dispose() {
@@ -113,17 +140,59 @@ class _HomeBarState extends State<HomeBar> {
     final databaseService = DatabaseService(uid: uid);
 
     void saveQuestion() async {
-      // diceResult = _myWidgetKey.currentState!.currentImageIndex;
       print("dice result: $diceResult");
-      dice = 'd20';
+      dice = "$currentDiceImages"; // Save the current dice type
       print("dice result: $dice");
-      interpretation = interpretationList[diceResult ~/ 4];
+      interpretation =
+          interpretationList[diceResult ~/ (20 / interpretationList.length)];
       print("interpretation result: $interpretation");
       print("timestamp result: $timeStamp");
       dynamic result = await databaseService.setUserHistory(
           question, diceResult, interpretation, timeStamp, dice);
       print(result);
       print('history');
+    }
+
+    void rollDice() {
+      // Roll the dice
+      Timer.periodic(const Duration(milliseconds: 80), (timer) {
+        counter++;
+        setState(() {
+          currentImageIndex = random.nextInt(currentDiceImages.length);
+        });
+        if (counter >= 13) {
+          timer.cancel();
+          setState(() {
+            counter = 1;
+            diceResult = currentImageIndex + 1;
+            print('dice result: $diceResult');
+            saveQuestion();
+          });
+        }
+      });
+    }
+
+    void updateDiceImages(int index) {
+      switch (index) {
+        case 0:
+          currentDiceImages = d4_images;
+          break;
+        case 1:
+          currentDiceImages = d6_images;
+          break;
+        case 2:
+          currentDiceImages = d8_images;
+          break;
+        case 3:
+          currentDiceImages = d10_images;
+          break;
+        case 4:
+          currentDiceImages = d12_images;
+          break;
+        case 5:
+        default:
+          currentDiceImages = d20_images;
+      }
     }
 
     return SingleChildScrollView(
@@ -138,7 +207,7 @@ class _HomeBarState extends State<HomeBar> {
             Transform.rotate(
               angle: random.nextDouble() * 180,
               child: Image.asset(
-                images[currentImageIndex],
+                currentDiceImages[currentImageIndex],
                 height: 100,
               ),
             ),
@@ -155,23 +224,25 @@ class _HomeBarState extends State<HomeBar> {
                         filled: true,
                         fillColor: Color(0xFF8C5E33), // Background color
                         enabledBorder: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.circular(12.0),
-                              borderSide: BorderSide(color: Color.fromARGB(255, 0, 0, 0)), 
+                          borderRadius: BorderRadius.circular(12.0),
+                          borderSide:
+                              BorderSide(color: Color.fromARGB(255, 0, 0, 0)),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: 
-                            BorderRadius.circular(12.0), 
-                            borderSide: BorderSide(color: Color.fromARGB(255, 143, 94, 11)), // Border radius when focused
+                          borderRadius: BorderRadius.circular(12.0),
+                          borderSide: BorderSide(
+                              color: Color.fromARGB(255, 143, 94,
+                                  11)), // Border radius when focused
                         ),
                         hintText: 'Enter your indecisiveness here',
-                        hintStyle: const TextStyle(color: Color.fromARGB(255, 55, 44, 44),
-                        fontFamily: 'Brawler'),
+                        hintStyle: const TextStyle(
+                            color: Color.fromARGB(255, 55, 44, 44),
+                            fontFamily: 'Brawler'),
                       ),
                       style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Brawler'),
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Brawler'),
                       onChanged: (value) {
                         question = value;
                       },
@@ -182,32 +253,12 @@ class _HomeBarState extends State<HomeBar> {
                         return null;
                       }, // Text color
                     ),
-                    // const SizedBox(height: 10),
                     const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () async {
-                        // Rolling the dice
-
-                        // Sound
-                        // await player.setAsset('assets/audios/rolling-dice.mp3');
-                        // player.play();
-
-                        // Roll the dice
-                        Timer.periodic(const Duration(milliseconds: 80),
-                            (timer) {
-                          counter++;
-                          setState(() {
-                            currentImageIndex = random.nextInt(images.length);
-                          });
-
-                          if (counter >= 13) {
-                            timer.cancel();
-
-                            setState(() {
-                              counter = 1;
-                            });
-                          }
-                        });
+                        if (_formKey.currentState?.validate() ?? false) {
+                          rollDice();
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize:
@@ -222,10 +273,9 @@ class _HomeBarState extends State<HomeBar> {
                         child: Text(
                           'Roll A Dice',
                           style: TextStyle(
-                            fontFamily: 'Brawler',
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-
+                              fontFamily: 'Brawler',
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
@@ -236,19 +286,16 @@ class _HomeBarState extends State<HomeBar> {
                         return GestureDetector(
                           onTap: () {
                             setState(() {
-                              currentImageIndex = dice_all.indexOf(diceImage);
-                              // Colors.blue; change bg color each contnr
-                            }); //change lang laterrr
+                              updateDiceImages(dice_all.indexOf(diceImage));
+                            });
                           },
-                          child: Container(height: 75,
-                          decoration: const BoxDecoration(
-                          // color: Colors.blue, 
-                          // borderRadius: BorderRadius.circular(8.0), 
-                          ),
-                          padding: EdgeInsets.all(8.0), 
-                          child: Image.asset(
-                            diceImage,
-                            height: 75,    ),
+                          child: Container(
+                            height: 75,
+                            padding: EdgeInsets.all(8.0),
+                            child: Image.asset(
+                              diceImage,
+                              height: 50,
+                            ),
                           ),
                         );
                       }).toList(),
@@ -261,84 +308,3 @@ class _HomeBarState extends State<HomeBar> {
     );
   }
 }
-
-// class MyWidget2 extends StatefulWidget {
-//   MyWidget2({super.key});
-
-//   @override
-//   _MyWidget2State createState() => _MyWidget2State();
-// }
-
-// class _MyWidget2State extends State<MyWidget2> {
-//   final Random random = Random();
-//   int currentImageIndex = 0;
-//   int counter = 1;
-
-//   void rollDice() {
-//     // Roll the dice
-//     Timer.periodic(const Duration(milliseconds: 80), (timer) {
-//       counter++;
-//       setState(() {
-//         currentImageIndex = random.nextInt(20);
-//       });
-
-//       if (counter >= 13) {
-//         timer.cancel();
-//         setState(() {
-//           counter = 1;
-//         });
-//       }
-//     });
-//   }
-
-//   final List<String> images = [
-//     'd20/1d20.png',
-//     'd20/2d20.png',
-//     'd20/3d20.png',
-//     'd20/4d20.png',
-//     'd20/5d20.png',
-//     'd20/6d20.png',
-//     'd20/7d20.png',
-//     'd20/8d20.png',
-//     'd20/9d20.png',
-//     'd20/10d20.png',
-//     'd20/11d20.png',
-//     'd20/12d20.png',
-//     'd20/13d20.png',
-//     'd20/14d20.png',
-//     'd20/15d20.png',
-//     'd20/16d20.png',
-//     'd20/17d20.png',
-//     'd20/18d20.png',
-//     'd20/19d20.png',
-//     'd20/20d20.png',
-//   ];
-//   final AudioPlayer player = AudioPlayer();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     timeDilation = 5.0;
-
-//     return Align(
-//       alignment: Alignment.topCenter,
-//       child: Column(
-//         mainAxisSize: MainAxisSize.min,
-//         children: [
-//           Transform.rotate(
-//             angle: random.nextDouble() * 180,
-//             child: Image.asset(
-//               images[currentImageIndex],
-//               height: 100,
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   @override
-//   void dispose() {
-//     player.dispose();
-//     super.dispose();
-//   }
-// }
