@@ -35,15 +35,6 @@ class DatabaseService {
         'interpretation': interpretation,
         'timeStamp': timeStamp,
         'dice': dice
-      }).then((value) {
-        print("value is $value");
-
-        return value;
-      }).catchError((error) {
-        // Handle any errors
-
-        print('Error writing document: $error');
-        return null;
       });
     } catch (e) {
       print('Error setting user history: $e');

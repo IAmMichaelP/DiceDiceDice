@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-// import '../../model/user_model.dart';
 import '../../service/database_service.dart';
 import 'package:provider/provider.dart';
 import '../../service/auth_service.dart';
 import 'package:just_audio/just_audio.dart';
 import 'dart:math';
 import 'dart:async';
-// import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeBar extends StatefulWidget {
@@ -18,17 +16,6 @@ class HomeBar extends StatefulWidget {
 }
 
 class _HomeBarState extends State<HomeBar> {
-  final FocusNode _focusNode =
-      FocusNode(); // Define FocusNode for TextFormField
-  bool _textFieldFocused = false; // Track if TextFormField has focus
-  List<String> interpretationList = [
-    // 'Critical Failure',
-    'Very Negative',
-    'Negative',
-    'Positive',
-    'Very Positive'
-    // 'Critical Success'
-  ];
   final Random random = Random();
   int currentImageIndex = 0;
   int counter = 1;
@@ -138,17 +125,11 @@ class _HomeBarState extends State<HomeBar> {
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
-    final GlobalKey<_HomeBarState> _myWidgetKey = GlobalKey<_HomeBarState>();
     final authService = Provider.of<AuthService>(context);
     final String? uid = authService.uid;
     final databaseService = DatabaseService(uid: uid);
 
     void saveQuestion(BuildContext context) async {
-      // diceResult = _myWidgetKey.currentState!.currentImageIndex;
-      print("dice result: $diceResult");
-      // dice = 'd20';
-      print("dice result: $diceType");
-      print("diceMax: $diceMax");
       if (diceResult == 1) {
         interpretation = 'Critical Failure';
       } else if (diceResult == diceMax) {
@@ -162,9 +143,6 @@ class _HomeBarState extends State<HomeBar> {
       } else if (diceResult / diceMax < 1) {
         interpretation = 'Very Positive';
       }
-      // interpretation = interpretationList[diceResult ~/ 4];
-      print("interpretation result: $interpretation");
-      print("timestamp result: $timeStamp");
       dynamic result = await databaseService.setUserHistory(
           question, diceResult, interpretation, timeStamp, diceType);
       print(result);
@@ -183,7 +161,6 @@ class _HomeBarState extends State<HomeBar> {
                 Text("Question: $question"),
                 Text("Dice Result: $diceResult"),
                 Text("Interpretation: $interpretation"),
-                // Text("Timestamp: $timeStamp"),
                 Text("Dice: $diceType"),
               ],
             ),
@@ -201,7 +178,6 @@ class _HomeBarState extends State<HomeBar> {
     }
 
     void rollDice() {
-      // Roll the dice
       Timer.periodic(const Duration(milliseconds: 80), (timer) {
         counter++;
         setState(() {
@@ -224,59 +200,53 @@ class _HomeBarState extends State<HomeBar> {
         case 0:
           currentDiceImages = d4_images;
           diceType = 'd4';
-          currentImageIndex = diceMax - 1;
-          // diceMax = 4;
+          diceMax = 4;
           break;
         case 1:
           currentDiceImages = d6_images;
           diceType = 'd6';
-          currentImageIndex = diceMax - 1;
-          // diceMax = 6;
+          diceMax = 6;
           break;
         case 2:
           currentDiceImages = d8_images;
           diceType = 'd8';
-          currentImageIndex = diceMax - 1;
-          // diceMax = 8;
+          diceMax = 8;
           break;
         case 3:
           currentDiceImages = d10_images;
           diceType = 'd10';
-          currentImageIndex = diceMax - 1;
-          // diceMax = 10;
+          diceMax = 10;
           break;
         case 4:
           currentDiceImages = d12_images;
           diceType = 'd12';
-          currentImageIndex = diceMax - 1;
-          // diceMax = 12;
+          diceMax = 12;
           break;
         case 5:
           currentDiceImages = d20_images;
           diceType = 'd20';
-          currentImageIndex = diceMax - 1;
-          // diceMax = 20;
+          diceMax = 20;
           break;
       }
     }
 
     return Center(
-        child: Column(
-      children: [
-        const SizedBox(height: 30),
-        Image.asset('assets/Dice-cider.png'),
-        const SizedBox(height: 10),
-        Image.asset('assets/subtitle.png'),
-        const SizedBox(height: 10),
-        Transform.rotate(
-          angle: random.nextDouble() * 180,
-          child: Image.asset(
-            currentDiceImages[currentImageIndex],
-            height: 100,
+      child: Column(
+        children: [
+          const SizedBox(height: 30),
+          Image.asset('assets/Dice-cider.png'),
+          const SizedBox(height: 10),
+          Image.asset('assets/subtitle.png'),
+          const SizedBox(height: 10),
+          Transform.rotate(
+            angle: random.nextDouble() * 180,
+            child: Image.asset(
+              currentDiceImages[currentImageIndex],
+              height: 100,
+            ),
           ),
-        ),
-        const SizedBox(height: 10),
-        Form(
+          const SizedBox(height: 10),
+          Form(
             key: _formKey,
             child: Column(
               children: [
@@ -373,10 +343,6 @@ class _HomeBarState extends State<HomeBar> {
                       },
                       child: Container(
                         height: 75,
-                        decoration: const BoxDecoration(
-                            // color: Colors.blue,
-                            // borderRadius: BorderRadius.circular(8.0),
-                            ),
                         padding: EdgeInsets.all(8.0),
                         child: Image.asset(
                           diceImage,
@@ -387,8 +353,10 @@ class _HomeBarState extends State<HomeBar> {
                   }).toList(),
                 ),
               ],
-            ))
-      ],
-    ));
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
