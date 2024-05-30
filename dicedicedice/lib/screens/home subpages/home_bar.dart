@@ -139,7 +139,7 @@ class _HomeBarState extends State<HomeBar> {
     final String? uid = authService.uid;
     final databaseService = DatabaseService(uid: uid);
 
-    void saveQuestion() async {
+    void saveQuestion(BuildContext context) async {
       // diceResult = _myWidgetKey.currentState!.currentImageIndex;
       print("dice result: $diceResult");
       dice = 'd20';
@@ -151,6 +151,35 @@ class _HomeBarState extends State<HomeBar> {
           question, diceResult, interpretation, timeStamp, dice);
       print(result);
       print('history');
+
+      // Show popup with saved data
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Success!"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Question: $question"),
+                Text("Dice Result: $diceResult"),
+                Text("Interpretation: $interpretation"),
+                // Text("Timestamp: $timeStamp"),
+                Text("Dice: $dice"),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("Close"),
+              ),
+            ],
+          );
+        },
+      );
     }
 
     void rollDice() {
@@ -166,7 +195,7 @@ class _HomeBarState extends State<HomeBar> {
             counter = 1;
             diceResult = currentImageIndex + 1;
             print('dice result: $diceResult');
-            saveQuestion();
+            saveQuestion(context);
           });
         }
       });
