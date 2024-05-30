@@ -33,7 +33,7 @@ class _HomeBarState extends State<HomeBar> {
   int currentImageIndex = 0;
   int counter = 1;
   int diceResult = 0;
-  int diceMax = 0;
+  int diceMax = 20;
   String diceType = 'd20';
 
   final List<String> d20_images = [
@@ -148,12 +148,19 @@ class _HomeBarState extends State<HomeBar> {
       print("dice result: $diceResult");
       // dice = 'd20';
       print("dice result: $diceType");
+      print("diceMax: $diceMax");
       if (diceResult == 1) {
         interpretation = 'Critical Failure';
       } else if (diceResult == diceMax) {
         interpretation = 'Critical Success';
-      } else {
-        interpretation = interpretationList[diceResult ~/ 4];
+      } else if (diceResult / diceMax < 0.25) {
+        interpretation = 'Very Negative';
+      } else if (diceResult / diceMax < 0.5) {
+        interpretation = 'Negative';
+      } else if (diceResult / diceMax < 0.75) {
+        interpretation = 'Positive';
+      } else if (diceResult / diceMax < 1) {
+        interpretation = 'Very Positive';
       }
       // interpretation = interpretationList[diceResult ~/ 4];
       print("interpretation result: $interpretation");
@@ -255,7 +262,7 @@ class _HomeBarState extends State<HomeBar> {
             Image.asset('assets/Dice-cider.png'),
             const SizedBox(height: 10),
             Image.asset('assets/subtitle.png'),
-            const SizedBox(height: 30),
+            const SizedBox(height: 10),
             Transform.rotate(
               angle: random.nextDouble() * 180,
               child: Image.asset(
@@ -263,7 +270,7 @@ class _HomeBarState extends State<HomeBar> {
                 height: 100,
               ),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 10),
             Form(
                 key: _formKey,
                 child: Column(
@@ -329,7 +336,7 @@ class _HomeBarState extends State<HomeBar> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 20),
                     Wrap(
                       alignment: WrapAlignment.center,
                       children: dice_all.map((diceImage) {
