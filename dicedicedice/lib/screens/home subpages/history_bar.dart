@@ -35,8 +35,14 @@ class HistoryBar extends StatelessWidget {
                 HistoryModel history = historyList[index];
                 return ListTile(
                   title: Text('Question: ${history.question}'),
-                  subtitle: Text(
-                      'Dice Result: ${history.diceResult}, Interpretation: ${history.interpretation}'),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                          'Dice Type: ${history.dice}, Dice Result: ${history.diceResult}'),
+                      Text('Interpretation: ${history.interpretation}'),
+                    ],
+                  ),
                   trailing: Text(history.timeStamp.toDate().toString()),
                 );
               },

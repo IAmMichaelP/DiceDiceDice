@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Text(
                             'DICE-CIDER',
                             style: TextStyle(
-                              fontSize: 50,
+                              fontSize: 40,
                               fontFamily: 'NewRocker',
                               fontWeight: FontWeight.bold,
                               foreground: Paint()
@@ -62,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             'DICE-CIDER',
                             style: TextStyle(
                               fontFamily: 'NewRocker',
-                              fontSize: 50,
+                              fontSize: 40,
                               fontWeight: FontWeight.bold,
                               color: Color(0xFFD66B05),
                             ),
@@ -77,14 +77,22 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontFamily: 'NewRocker',
                           fontSize: 25,
                           color: Color(0xFFC36036),
-                          shadows:[Shadow(color: Colors.black, // Choose the color of the shadow.
-                          blurRadius: 2.0, // Adjust the blur radius for the shadow effect.
-                          offset: Offset(2.0, 2.0),),],),
+                          shadows: [
+                            Shadow(
+                              color: Colors
+                                  .black, // Choose the color of the shadow.
+                              blurRadius:
+                                  2.0, // Adjust the blur radius for the shadow effect.
+                              offset: Offset(2.0, 2.0),
+                            ),
+                          ],
+                        ),
                       ),
                       const SizedBox(height: 30),
                       // Email input
                       TextFormField(
-                        style: TextStyle(color: Colors.white, fontFamily: 'Brawler'),
+                        style: TextStyle(
+                            color: Colors.white, fontFamily: 'Brawler'),
                         keyboardType: TextInputType.emailAddress,
                         onChanged: (value) {
                           email = value;
@@ -92,7 +100,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: InputDecoration(
                           hintText: 'Email',
                           hintStyle: TextStyle(color: Colors.white70),
-                          prefixIcon: Icon(Icons.email_outlined, color: Colors.orange),
+                          prefixIcon:
+                              Icon(Icons.email_outlined, color: Colors.orange),
                           filled: true,
                           fillColor: Color(0xFF263214).withOpacity(.90),
                           border: OutlineInputBorder(
@@ -110,7 +119,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 10),
                       // Password input
                       TextFormField(
-                        style: TextStyle(color: Colors.white, fontFamily: 'Brawler'),
+                        style: TextStyle(
+                            color: Colors.white, fontFamily: 'Brawler'),
                         obscureText: true,
                         onChanged: (value) {
                           password = value;
@@ -151,20 +161,27 @@ class _LoginScreenState extends State<LoginScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
-                          side: BorderSide(color: Color(0xFFFF7901), width: 2.0),
-                          padding: EdgeInsets.symmetric(horizontal: 100, vertical: 15),
+                          side:
+                              BorderSide(color: Color(0xFFFF7901), width: 2.0),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 100, vertical: 15),
                         ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            dynamic result = await _auth.signIn(email, password);
+                            dynamic result =
+                                await _auth.signIn(email, password);
                             if (result == null) {
                               setState(() {
-                                errorMessage = 'Email and password do not match';
+                                errorMessage =
+                                    'Email and password do not match';
                               });
                             }
                           }
                         },
-                        child: Text('Log In', style: TextStyle(color: Color(0xFFFF7901)),),
+                        child: Text(
+                          'Log In',
+                          style: TextStyle(color: Color(0xFFFF7901)),
+                        ),
                       ),
                       const SizedBox(height: 20),
                       // Register link
@@ -179,15 +196,25 @@ class _LoginScreenState extends State<LoginScreen> {
                             onTap: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => SignupScreen()),
+                                MaterialPageRoute(
+                                    builder: (context) => SignupScreen()),
                               );
                             },
                             child: Text(
                               'Create an Account',
-                              style: TextStyle(color: Color(0xFFFF7901), fontWeight: FontWeight.bold,
-    shadows:[Shadow(color: Colors.black, // Choose the color of the shadow.
-    blurRadius: 2.0, // Adjust the blur radius for the shadow effect.
-    offset: Offset(2.0, 2.0),),],),
+                              style: TextStyle(
+                                color: Color(0xFFFF7901),
+                                fontWeight: FontWeight.bold,
+                                shadows: [
+                                  Shadow(
+                                    color: Colors
+                                        .black, // Choose the color of the shadow.
+                                    blurRadius:
+                                        2.0, // Adjust the blur radius for the shadow effect.
+                                    offset: Offset(2.0, 2.0),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],

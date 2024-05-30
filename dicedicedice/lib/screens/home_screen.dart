@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dicedicedice/screens/landing_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -58,12 +59,14 @@ class HomeScreen extends StatelessWidget {
           ),
           actions: [
             PopupMenuButton<String>(
-              icon: const Icon(Icons.more_vert, color: Color.fromARGB(255, 254, 214, 154)),
+              icon: const Icon(Icons.more_vert,
+                  color: Color.fromARGB(255, 254, 214, 154)),
               color: const Color.fromRGBO(38, 50, 20, 1),
               onSelected: (String value) {
                 if (value == 'about') {
-                  Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AboutScreen()),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AboutScreen()),
                   );
                 } else if (value == 'logout') {
                   //   authService.signOut();// sign out
@@ -72,41 +75,50 @@ class HomeScreen extends StatelessWidget {
                   //   MaterialPageRoute(builder: (context) => WelcomeScreen()),
                   //   (Route<dynamic> route) => false,
                   // );
-                }},
-              
+                }
+              },
               itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                const  PopupMenuItem<String>(
-                value: 'about',
-                child: ListTile(
-                  // tileColor: const Color.fromRGBO(38, 50, 20, 1), 
-                  // shape: RoundedRectangleBorder(
-                  // borderRadius: BorderRadius.circular(0),
-                  // side: const BorderSide(color: Color.fromRGBO(255, 198, 181, 181)), ),
-                  leading:   Icon(Icons.info,
-                  color: Color.fromARGB(255, 248, 227, 197)),
-                  title:  Text('About',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 198, 181, 181), 
-                  ),),
+                const PopupMenuItem<String>(
+                  value: 'about',
+                  child: ListTile(
+                    // tileColor: const Color.fromRGBO(38, 50, 20, 1),
+                    // shape: RoundedRectangleBorder(
+                    // borderRadius: BorderRadius.circular(0),
+                    // side: const BorderSide(color: Color.fromRGBO(255, 198, 181, 181)), ),
+                    leading: Icon(Icons.info,
+                        color: Color.fromARGB(255, 248, 227, 197)),
+                    title: Text(
+                      'About',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 198, 181, 181),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              const PopupMenuItem<String>(
-                value: 'logout',
-                child: ListTile(
-                  // tileColor: const Color.fromRGBO(38, 50, 20, 1), 
-                  // shape: RoundedRectangleBorder(
-                  // borderRadius: BorderRadius.circular(0),
-                  // side: const BorderSide(color: Color.fromRGBO(255, 198, 181, 181)), ),
-                  leading:  Icon(Icons.logout, 
-                  color: Color.fromARGB(255, 248, 227, 197)), 
-                  title:  Text('Log Out',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 198, 181, 181), 
-                  ),),
+                PopupMenuItem<String>(
+                  value: 'logout',
+                  child: ListTile(
+                    leading: Icon(Icons.logout,
+                        color: Color.fromARGB(255, 248, 227, 197)),
+                    title: Text(
+                      'Log Out',
+                      style:
+                          TextStyle(color: Color.fromARGB(255, 198, 181, 181)),
+                    ),
+                    onTap: () {
+                      authService.signOut(); // Sign out
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                WelcomeScreen()), // Navigate to the login or welcome screen
+                        (Route<dynamic> route) => false,
+                      );
+                    },
+                  ),
                 ),
-              ),
               ],
-              ),
+            ),
           ],
         ),
 

@@ -22,15 +22,19 @@ class _HomeBarState extends State<HomeBar> {
       FocusNode(); // Define FocusNode for TextFormField
   bool _textFieldFocused = false; // Track if TextFormField has focus
   List<String> interpretationList = [
-    'very negative',
-    'negative',
-    'positive',
-    'very positive'
+    // 'Critical Failure',
+    'Very Negative',
+    'Negative',
+    'Positive',
+    'Very Positive'
+    // 'Critical Success'
   ];
   final Random random = Random();
   int currentImageIndex = 0;
   int counter = 1;
   int diceResult = 0;
+  int diceMax = 0;
+  String diceType = '';
 
   final List<String> d20_images = [
     'assets/d20/1d20.png',
@@ -142,13 +146,20 @@ class _HomeBarState extends State<HomeBar> {
     void saveQuestion(BuildContext context) async {
       // diceResult = _myWidgetKey.currentState!.currentImageIndex;
       print("dice result: $diceResult");
-      dice = 'd20';
-      print("dice result: $dice");
-      interpretation = interpretationList[diceResult ~/ 4];
+      // dice = 'd20';
+      print("dice result: $diceType");
+      if (diceResult == 1) {
+        interpretation = 'Critical Failure';
+      } else if (diceResult == diceMax) {
+        interpretation = 'Critical Success';
+      } else {
+        interpretation = interpretationList[diceResult ~/ 4];
+      }
+      // interpretation = interpretationList[diceResult ~/ 4];
       print("interpretation result: $interpretation");
       print("timestamp result: $timeStamp");
       dynamic result = await databaseService.setUserHistory(
-          question, diceResult, interpretation, timeStamp, dice);
+          question, diceResult, interpretation, timeStamp, diceType);
       print(result);
       print('history');
 
@@ -166,7 +177,7 @@ class _HomeBarState extends State<HomeBar> {
                 Text("Dice Result: $diceResult"),
                 Text("Interpretation: $interpretation"),
                 // Text("Timestamp: $timeStamp"),
-                Text("Dice: $dice"),
+                Text("Dice: $diceType"),
               ],
             ),
             actions: [
@@ -205,22 +216,34 @@ class _HomeBarState extends State<HomeBar> {
       switch (index) {
         case 0:
           currentDiceImages = d4_images;
+          diceType = 'd4';
+          diceMax = 4;
           break;
         case 1:
           currentDiceImages = d6_images;
+          diceType = 'd6';
+          diceMax = 6;
           break;
         case 2:
           currentDiceImages = d8_images;
+          diceType = 'd8';
+          diceMax = 8;
           break;
         case 3:
           currentDiceImages = d10_images;
+          diceType = 'd10';
+          diceMax = 10;
           break;
         case 4:
           currentDiceImages = d12_images;
+          diceType = 'd12';
+          diceMax = 12;
           break;
         case 5:
-        default:
+          // default:
           currentDiceImages = d20_images;
+          diceType = 'd20';
+          diceMax = 20;
       }
     }
 
@@ -313,6 +336,19 @@ class _HomeBarState extends State<HomeBar> {
                         return GestureDetector(
                           onTap: () {
                             setState(() {
+                              if (diceImage == 'assets/d4/4d4.png') {
+                                diceType = 'd4';
+                              } else if (diceImage == 'assets/d6/6d6.png') {
+                                diceType = 'd6';
+                              } else if (diceImage == 'assets/d8/8d8.png') {
+                                diceType = 'd8';
+                              } else if (diceImage == 'assets/d10/9d10.png') {
+                                diceType = 'd10';
+                              } else if (diceImage == 'assets/d12/12d12.png') {
+                                diceType = 'd12';
+                              } else if (diceImage == 'assets/d20/20d20.png') {
+                                diceType = 'd20';
+                              }
                               currentImageIndex = dice_all.indexOf(diceImage);
                               updateDiceImages(currentImageIndex);
                             });
