@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../model/user_model.dart';
+// import '../../model/user_model.dart';
 import '../../service/database_service.dart';
 import 'package:provider/provider.dart';
 import '../../service/auth_service.dart';
 import 'package:just_audio/just_audio.dart';
 import 'dart:math';
 import 'dart:async';
-import 'package:flutter/scheduler.dart' show timeDilation;
+// import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeBar extends StatefulWidget {
@@ -22,15 +22,24 @@ class _HomeBarState extends State<HomeBar> {
       FocusNode(); // Define FocusNode for TextFormField
   bool _textFieldFocused = false; // Track if TextFormField has focus
   List<String> interpretationList = [
-    'very negative',
-    'negative',
-    'positive',
-    'very positive'
+    // 'Critical Failure',
+    'Very Negative',
+    'Negative',
+    'Positive',
+    'Very Positive'
+    // 'Critical Success'
   ];
   final Random random = Random();
   int currentImageIndex = 0;
   int counter = 1;
   int diceResult = 0;
+  int diceMax = 20;
+  String diceType = 'd20';
+  List<String> currentDiceImages = [];
+  String question = '';
+  String interpretation = '';
+  Timestamp timeStamp = Timestamp.now();
+  String dice = '';
 
   final List<String> d20_images = [
     'assets/d20/1d20.png',
@@ -69,6 +78,7 @@ class _HomeBarState extends State<HomeBar> {
     'assets/d12/12d12.png',
   ];
   final List<String> d10_images = [
+    'assets/d10/0d10.png',
     'assets/d10/1d10.png',
     'assets/d10/2d10.png',
     'assets/d10/3d10.png',
@@ -78,7 +88,6 @@ class _HomeBarState extends State<HomeBar> {
     'assets/d10/7d10.png',
     'assets/d10/8d10.png',
     'assets/d10/9d10.png',
-    'assets/d10/10d10.png',
   ];
   final List<String> d8_images = [
     'assets/d8/1d8.png',
@@ -112,14 +121,8 @@ class _HomeBarState extends State<HomeBar> {
     'assets/d12/12d12.png',
     'assets/d20/20d20.png',
   ];
-  List<String> currentDiceImages = [];
-  final AudioPlayer player = AudioPlayer();
 
-  String question = '';
-  String interpretation = '';
-  Timestamp timeStamp = Timestamp.now();
-  String dice = '';
-  List<String> diceType = ['d4', 'd6', 'd8', 'd10', 'd12', 'd20'];
+  final AudioPlayer player = AudioPlayer();
 
   @override
   void initState() {
@@ -140,21 +143,61 @@ class _HomeBarState extends State<HomeBar> {
     final String? uid = authService.uid;
     final databaseService = DatabaseService(uid: uid);
 
-    void saveQuestion() async {
-      // print("dice result: $diceResult");
-
-      // print("dice result: $dice");
-
-      interpretation = interpretationList[diceResult - 1];
-      // print("interpretation result: $interpretation");
-      // print("timestamp result: $timeStamp");
-      try {
-        await databaseService.setUserHistory(
-            question, diceResult, interpretation, timeStamp, dice);
-      } catch (e) {
-        print('Error: $e');
-        rethrow;
+    void saveQuestion(BuildContext context) async {
+      // diceResult = _myWidgetKey.currentState!.currentImageIndex;
+      print("dice result: $diceResult");
+      // dice = 'd20';
+      print("dice result: $diceType");
+      print("diceMax: $diceMax");
+      if (diceResult == 1) {
+        interpretation = 'Critical Failure';
+      } else if (diceResult == diceMax) {
+        interpretation = 'Critical Success';
+      } else if (diceResult / diceMax < 0.25) {
+        interpretation = 'Very Negative';
+      } else if (diceResult / diceMax < 0.5) {
+        interpretation = 'Negative';
+      } else if (diceResult / diceMax < 0.75) {
+        interpretation = 'Positive';
+      } else if (diceResult / diceMax < 1) {
+        interpretation = 'Very Positive';
       }
+      // interpretation = interpretationList[diceResult ~/ 4];
+      print("interpretation result: $interpretation");
+      print("timestamp result: $timeStamp");
+      dynamic result = await databaseService.setUserHistory(
+          question, diceResult, interpretation, timeStamp, diceType);
+      print(result);
+      print('history');
+
+      // Show popup with saved data
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Success!"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Question: $question"),
+                Text("Dice Result: $diceResult"),
+                Text("Interpretation: $interpretation"),
+                // Text("Timestamp: $timeStamp"),
+                Text("Dice: $diceType"),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("Close"),
+              ),
+            ],
+          );
+        },
+      );
     }
 
     void rollDice() {
@@ -170,7 +213,7 @@ class _HomeBarState extends State<HomeBar> {
             counter = 1;
             diceResult = currentImageIndex + 1;
             print('dice result: $diceResult');
-            saveQuestion();
+            saveQuestion(context);
           });
         }
       });
@@ -180,137 +223,172 @@ class _HomeBarState extends State<HomeBar> {
       switch (index) {
         case 0:
           currentDiceImages = d4_images;
+          diceType = 'd4';
+          currentImageIndex = diceMax - 1;
+          // diceMax = 4;
           break;
         case 1:
           currentDiceImages = d6_images;
+          diceType = 'd6';
+          currentImageIndex = diceMax - 1;
+          // diceMax = 6;
           break;
         case 2:
           currentDiceImages = d8_images;
+          diceType = 'd8';
+          currentImageIndex = diceMax - 1;
+          // diceMax = 8;
           break;
         case 3:
           currentDiceImages = d10_images;
+          diceType = 'd10';
+          currentImageIndex = diceMax - 1;
+          // diceMax = 10;
           break;
         case 4:
           currentDiceImages = d12_images;
+          diceType = 'd12';
+          currentImageIndex = diceMax - 1;
+          // diceMax = 12;
           break;
-        // case 5:
-        default:
-          dice = 'd20';
+        case 5:
           currentDiceImages = d20_images;
+          diceType = 'd20';
+          currentImageIndex = diceMax - 1;
+          // diceMax = 20;
+          break;
       }
     }
 
-    return SingleChildScrollView(
-      child: Center(
+    return Center(
         child: Column(
-          children: [
-            const SizedBox(height: 30),
-            Image.asset('assets/Dice-cider.png'),
-            const SizedBox(height: 10),
-            Image.asset('assets/subtitle.png'),
-            const SizedBox(height: 30),
-            Transform.rotate(
-              angle: random.nextDouble() * 180,
-              child: Image.asset(
-                currentDiceImages[currentImageIndex],
-                height: 100,
-              ),
-            ),
-            const SizedBox(height: 30),
-            Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      maxLines: 4,
-                      decoration: InputDecoration(
-                        constraints: BoxConstraints(
-                            maxWidth: MediaQuery.of(context).size.width * 0.85),
-                        filled: true,
-                        fillColor: Color(0xFF8C5E33), // Background color
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                          borderSide:
-                              BorderSide(color: Color.fromARGB(255, 0, 0, 0)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                          borderSide: BorderSide(
-                              color: Color.fromARGB(255, 143, 94,
-                                  11)), // Border radius when focused
-                        ),
-                        hintText: 'Enter your indecisiveness here',
-                        hintStyle: const TextStyle(
-                            color: Color.fromARGB(255, 55, 44, 44),
-                            fontFamily: 'Brawler'),
-                      ),
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Brawler'),
-                      onChanged: (value) {
-                        question = value;
-                      },
-                      validator: (value) {
-                        if (value?.trim().isEmpty ?? false) {
-                          return "Please provide indecisiveness";
-                        }
-                        return null;
-                      }, // Text color
-                    ),
-                    const SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState?.validate() ?? false) {
-                          rollDice();
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        minimumSize:
-                            Size(MediaQuery.of(context).size.width * 0.7, 55),
-                        side: const BorderSide(
-                            color: Color(0xFF8C5E33), width: 2.0),
-                        backgroundColor: Color(0xFF161312), // Button color
-                        foregroundColor: Color(0xFF8C5E33), // Text color
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          'Roll A Dice',
-                          style: TextStyle(
-                              fontFamily: 'Brawler',
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    Wrap(
-                      alignment: WrapAlignment.center,
-                      children: dice_all.map((diceImage) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              dice = diceType[dice_all.indexOf(diceImage)];
-                              updateDiceImages(dice_all.indexOf(diceImage));
-                            });
-                          },
-                          child: Container(
-                            height: 75,
-                            padding: EdgeInsets.all(8.0),
-                            child: Image.asset(
-                              diceImage,
-                              height: 50,
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ],
-                ))
-          ],
+      children: [
+        const SizedBox(height: 30),
+        Image.asset('assets/Dice-cider.png'),
+        const SizedBox(height: 10),
+        Image.asset('assets/subtitle.png'),
+        const SizedBox(height: 10),
+        Transform.rotate(
+          angle: random.nextDouble() * 180,
+          child: Image.asset(
+            currentDiceImages[currentImageIndex],
+            height: 100,
+          ),
         ),
-      ),
-    );
+        const SizedBox(height: 10),
+        Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  maxLines: 4,
+                  decoration: InputDecoration(
+                    constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width * 0.85),
+                    filled: true,
+                    fillColor: Color(0xFF8C5E33), // Background color
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide:
+                          BorderSide(color: Color.fromARGB(255, 0, 0, 0)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: BorderSide(
+                          color: Color.fromARGB(
+                              255, 143, 94, 11)), // Border radius when focused
+                    ),
+                    hintText: 'Enter your indecisiveness here',
+                    hintStyle: const TextStyle(
+                        color: Color.fromARGB(255, 55, 44, 44),
+                        fontFamily: 'Brawler'),
+                  ),
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Brawler'),
+                  onChanged: (value) {
+                    question = value;
+                  },
+                  validator: (value) {
+                    if (value?.trim().isEmpty ?? false) {
+                      return "Please provide indecisiveness";
+                    }
+                    return null;
+                  }, // Text color
+                ),
+                const SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: () async {
+                    rollDice();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize:
+                        Size(MediaQuery.of(context).size.width * 0.7, 55),
+                    side:
+                        const BorderSide(color: Color(0xFF8C5E33), width: 2.0),
+                    backgroundColor: Color(0xFF161312), // Button color
+                    foregroundColor: Color(0xFF8C5E33), // Text color
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'Roll A Dice',
+                      style: TextStyle(
+                          fontFamily: 'Brawler',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  children: dice_all.map((diceImage) {
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          if (diceImage == 'assets/d4/4d4.png') {
+                            diceType = 'd4';
+                            diceMax = 4;
+                          } else if (diceImage == 'assets/d6/6d6.png') {
+                            diceType = 'd6';
+                            diceMax = 6;
+                          } else if (diceImage == 'assets/d8/8d8.png') {
+                            diceType = 'd8';
+                            diceMax = 8;
+                          } else if (diceImage == 'assets/d10/9d10.png') {
+                            diceType = 'd10';
+                            diceMax = 10;
+                          } else if (diceImage == 'assets/d12/12d12.png') {
+                            diceType = 'd12';
+                            diceMax = 12;
+                          } else if (diceImage == 'assets/d20/20d20.png') {
+                            diceType = 'd20';
+                            diceMax = 20;
+                          }
+                          currentImageIndex = dice_all.indexOf(diceImage);
+                          updateDiceImages(currentImageIndex);
+                        });
+                      },
+                      child: Container(
+                        height: 75,
+                        decoration: const BoxDecoration(
+                            // color: Colors.blue,
+                            // borderRadius: BorderRadius.circular(8.0),
+                            ),
+                        padding: EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          diceImage,
+                          height: 50,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ))
+      ],
+    ));
   }
 }
